@@ -52,7 +52,7 @@ Built with **Next.js 16**, **Firebase**, **Google Gemini AI**, and **Tailwind CS
 ### Installation
 
 ```bash
-git clone <repo-url>
+git clone <https://github.com/Hackbits/HireIQ.git>
 cd resume-screener
 npm install
 ```
