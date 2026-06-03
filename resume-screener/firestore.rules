@@ -1,0 +1,47 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Helper function to check if user is signed in
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    // Helper to check if the document belongs to the signed-in user
+    function isOwner(userId) {
+      return request.auth.uid == userId;
+    }
+
+    // --- Users Collection ---
+    match /users/{userId} {
+      // Users can read/write their own profile
+      allow read, write: if isSignedIn() && isOwner(userId);
+    }
+
+    // --- Jobs Collection ---
+    match /jobs/{jobId} {
+      // Users can read jobs they created
+      allow read: if isSignedIn() && isOwner(resource.data.createdBy);
+      
+      // Users can create jobs where they are the owner
+      allow create: if isSignedIn() && isOwner(request.resource.data.createdBy);
+      
+      // Users can update/delete their own jobs
+      allow update, delete: if isSignedIn() && isOwner(resource.data.createdBy);
+    }
+
+    // --- Candidates Collection ---
+    match /candidates/{candidateId} {
+      // Users can read candidates they created (checked via createdBy field)
+      allow read: if isSignedIn() && isOwner(resource.data.createdBy);
+      
+      // Candidate creation happens server-side (Admin SDK bypasses these rules)
+      // but we allow update/delete just in case we add features for it later
+      allow update, delete: if isSignedIn() && isOwner(resource.data.createdBy);
+      
+      // If candidates were created client-side, we would add:
+      // allow create: if isSignedIn() && isOwner(request.resource.data.createdBy);
+    }
+  }
+}
