@@ -1,12 +1,12 @@
 "use client";
-// app/dashboard/[jobId]/page.tsx - Candidate results view with Firebase
 import { useEffect, useState, useMemo } from "react";
 import { db } from "@/lib/firebase";
 import { doc, getDoc, collection, query, where, getDocs, orderBy } from "firebase/firestore";
 import { useAuth } from "@/lib/auth-context";
 import { useRouter, useParams } from "next/navigation";
-import Sidebar from "@/components/Sidebar";
 import CandidateCard from "@/components/CandidateCard";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import { Candidate, Job, RecommendationFilter } from "@/lib/types";
 
 const RECOMMENDATION_LABELS: Record<RecommendationFilter, string> = {
@@ -60,7 +60,6 @@ export default function JobResultsPage() {
     const fetchData = async () => {
       setDataLoading(true);
       try {
-        // Fetch job
         const jobRef = doc(db, "jobs", jobId);
         const jobSnap = await getDoc(jobRef);
 
@@ -70,15 +69,14 @@ export default function JobResultsPage() {
         }
 
         const jobData = jobSnap.data();
-        setJob({ 
-          id: jobSnap.id, 
+        setJob({
+          id: jobSnap.id,
           title: jobData.title,
           description: jobData.description,
           createdBy: jobData.createdBy,
           createdAt: jobData.createdAt?.toDate?.()?.toISOString() || new Date().toISOString()
         });
 
-        // Fetch candidates sorted by score descending
         const candidatesQuery = query(
           collection(db, "candidates"),
           where("jobId", "==", jobId),
@@ -128,11 +126,8 @@ export default function JobResultsPage() {
 
   if (loading || dataLoading) {
     return (
-      <div className="flex min-h-screen">
-        <Sidebar />
-        <main className="flex-1 flex items-center justify-center">
-          <div className="loader" style={{ width: 40, height: 40 }} />
-        </main>
+      <div className="flex items-center justify-center min-h-[60vh]">
+        <div className="loader" style={{ width: 40, height: 40 }} />
       </div>
     );
   }
@@ -140,117 +135,116 @@ export default function JobResultsPage() {
   if (!job) return null;
 
   return (
-    <div className="flex min-h-screen">
-      <Sidebar />
+    <div className="animate-fade-up">
+      <div className="mb-6">
+        <button
+          onClick={() => router.push("/dashboard")}
+          className="flex items-center gap-2 text-sm mb-4 text-muted-foreground hover:text-foreground transition-colors"
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/>
+          </svg>
+          Back to Jobs
+        </button>
 
-      <main className="flex-1 p-8 overflow-y-auto">
-        {/* Back + Header */}
-        <div className="mb-6">
-          <button
-            onClick={() => router.push("/dashboard")}
-            className="flex items-center gap-2 text-sm mb-4 transition-colors hover:text-white"
-            style={{ color: "var(--on-surface-variant)" }}
-          >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/>
-            </svg>
-            Back to Jobs
-          </button>
-
-          <div className="flex items-start justify-between gap-4 flex-wrap">
-            <div>
-              <h1 className="page-title">{job.title}</h1>
-              <p style={{ color: "var(--on-surface-variant)", fontSize: "0.875rem", marginTop: "0.25rem" }}>
-                {candidates.length} candidate{candidates.length !== 1 ? "s" : ""} screened
-                {job.createdAt && ` · ${new Date(job.createdAt).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}`}
-              </p>
-            </div>
-
-            {candidates.length > 0 && (
-              <button
-                id="export-csv-btn"
-                onClick={() => exportToCSV(candidates, job.title)}
-                className="btn-secondary"
-              >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
-                </svg>
-                Export CSV
-              </button>
-            )}
+        <div className="flex items-start justify-between gap-4 flex-wrap">
+          <div>
+            <h1 className="font-display-family text-3xl font-bold tracking-tight">{job.title}</h1>
+            <p className="text-muted-foreground text-sm mt-1">
+              {candidates.length} candidate{candidates.length !== 1 ? "s" : ""} screened
+              {job.createdAt && ` · ${new Date(job.createdAt).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}`}
+            </p>
           </div>
+
+          {candidates.length > 0 && (
+            <Button
+              id="export-csv-btn"
+              variant="outline"
+              onClick={() => exportToCSV(candidates, job.title)}
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+              </svg>
+              Export CSV
+            </Button>
+          )}
         </div>
+      </div>
 
-        {/* Stats row */}
-        {candidates.length > 0 && (
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
-            <div className="card" style={{ border: "1px solid rgba(74,222,128,0.15)" }}>
-              <p className="form-label mb-1">Strong Fit</p>
-              <p className="text-2xl font-bold score-high" style={{ fontFamily: "var(--font-manrope)" }}>{stats.strong}</p>
-            </div>
-            <div className="card" style={{ border: "1px solid rgba(250,204,21,0.15)" }}>
-              <p className="form-label mb-1">Possible Fit</p>
-              <p className="text-2xl font-bold score-mid" style={{ fontFamily: "var(--font-manrope)" }}>{stats.possible}</p>
-            </div>
-            <div className="card" style={{ border: "1px solid rgba(248,113,113,0.15)" }}>
-              <p className="form-label mb-1">Not a Fit</p>
-              <p className="text-2xl font-bold score-low" style={{ fontFamily: "var(--font-manrope)" }}>{stats.notFit}</p>
-            </div>
-            <div className="card" style={{ border: "1px solid rgba(72,71,77,0.15)" }}>
-              <p className="form-label mb-1">Avg Score</p>
-              <p className="text-2xl font-bold gradient-text" style={{ fontFamily: "var(--font-manrope)" }}>{stats.avgScore}</p>
-            </div>
-          </div>
-        )}
+      {candidates.length > 0 && (
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
+          <Card className="border-accent/20">
+            <CardContent className="p-4">
+              <p className="micro-label mb-1">Strong Fit</p>
+              <p className="text-2xl font-bold text-accent font-display-family">{stats.strong}</p>
+            </CardContent>
+          </Card>
+          <Card className="border-primary/20">
+            <CardContent className="p-4">
+              <p className="micro-label mb-1">Possible Fit</p>
+              <p className="text-2xl font-bold text-primary font-display-family">{stats.possible}</p>
+            </CardContent>
+          </Card>
+          <Card className="border-destructive/20">
+            <CardContent className="p-4">
+              <p className="micro-label mb-1">Not a Fit</p>
+              <p className="text-2xl font-bold score-low font-display-family">{stats.notFit}</p>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="p-4">
+              <p className="micro-label mb-1">Avg Score</p>
+              <p className="text-2xl font-bold text-primary font-display-family">{stats.avgScore}</p>
+            </CardContent>
+          </Card>
+        </div>
+      )}
 
-        {/* Filter buttons */}
-        {candidates.length > 0 && (
-          <div className="flex flex-wrap gap-2 mb-6">
-            {(Object.keys(RECOMMENDATION_LABELS) as RecommendationFilter[]).map((key) => (
-              <button
-                key={key}
-                id={`filter-${key}`}
-                onClick={() => setFilter(key)}
-                className="text-sm font-medium px-4 py-1.5 rounded-full transition-all"
-                style={{
-                  background: filter === key ? "var(--gradient-primary)" : "var(--surface-container-high)",
-                  color: filter === key ? "#000" : "var(--on-surface-variant)",
-                  border: filter === key ? "none" : "1px solid rgba(72,71,77,0.3)",
-                }}
-              >
-                {RECOMMENDATION_LABELS[key]}
-                {key !== "all" && (
-                  <span className="ml-1.5 text-xs">
-                    ({key === "strong_fit" ? stats.strong : key === "possible_fit" ? stats.possible : stats.notFit})
-                  </span>
-                )}
-              </button>
-            ))}
-          </div>
-        )}
+      {candidates.length > 0 && (
+        <div className="flex flex-wrap gap-2 mb-6">
+          {(Object.keys(RECOMMENDATION_LABELS) as RecommendationFilter[]).map((key) => (
+            <Button
+              key={key}
+              id={`filter-${key}`}
+              variant={filter === key ? "primary" : "outline"}
+              size="sm"
+              onClick={() => setFilter(key)}
+            >
+              {RECOMMENDATION_LABELS[key]}
+              {key !== "all" && (
+                <span className="ml-1 text-xs opacity-70">
+                  ({key === "strong_fit" ? stats.strong : key === "possible_fit" ? stats.possible : stats.notFit})
+                </span>
+              )}
+            </Button>
+          ))}
+        </div>
+      )}
 
-        {/* Candidates list */}
-        {candidates.length === 0 ? (
-          <div className="card text-center py-16" style={{ border: "1px solid rgba(72,71,77,0.15)" }}>
-            <p className="text-lg font-semibold mb-2">No candidates yet</p>
-            <p style={{ color: "var(--on-surface-variant)", fontSize: "0.875rem" }}>
+      {candidates.length === 0 ? (
+        <Card className="text-center py-16">
+          <CardContent>
+            <p className="font-display-family text-xl font-bold mb-2">No candidates yet</p>
+            <p className="text-muted-foreground text-sm">
               Go back and upload resumes to start screening.
             </p>
-          </div>
-        ) : filtered.length === 0 ? (
-          <div className="card text-center py-10" style={{ border: "1px solid rgba(72,71,77,0.15)" }}>
-            <p style={{ color: "var(--on-surface-variant)", fontSize: "0.875rem" }}>
+          </CardContent>
+        </Card>
+      ) : filtered.length === 0 ? (
+        <Card className="text-center py-10">
+          <CardContent>
+            <p className="text-muted-foreground text-sm">
               No candidates match this filter.
             </p>
-          </div>
-        ) : (
-          <div className="space-y-4">
-            {filtered.map((candidate) => (
-              <CandidateCard key={candidate.id} candidate={candidate} />
-            ))}
-          </div>
-        )}
-      </main>
+          </CardContent>
+        </Card>
+      ) : (
+        <div className="space-y-4">
+          {filtered.map((candidate) => (
+            <CandidateCard key={candidate.id} candidate={candidate} />
+          ))}
+        </div>
+      )}
     </div>
   );
 }

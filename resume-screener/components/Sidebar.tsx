@@ -1,8 +1,8 @@
 "use client";
-// components/Sidebar.tsx - Shared navigation sidebar
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useAuth } from "@/lib/auth-context";
+import { cn } from "@/lib/utils";
 
 const navItems = [
   {
@@ -40,21 +40,19 @@ export default function Sidebar() {
 
   return (
     <aside className="sidebar">
-      {/* Logo */}
       <div className="px-5 mb-8">
         <Link href="/" className="inline-flex items-center gap-2">
-          <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: "var(--gradient-primary)" }}>
+          <div className="command-strip w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
               <path d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18" stroke="#000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </div>
-          <span className="text-base font-bold" style={{ fontFamily: "var(--font-manrope)" }}>
-            Hire<span className="gradient-text">IQ</span>
+          <span className="font-display-family text-base font-bold tracking-tight text-foreground">
+            Hire<span className="text-primary">IQ</span>
           </span>
         </Link>
       </div>
 
-      {/* Navigation */}
       <nav className="flex-1 px-2">
         {navItems.map((item) => {
           const isActive = pathname === item.href || (item.href !== "/dashboard" && pathname.startsWith(item.href));
@@ -62,9 +60,9 @@ export default function Sidebar() {
             <Link
               key={item.href}
               href={item.href}
-              className={`sidebar-link ${isActive ? "active" : ""}`}
+              className={cn("sidebar-link", isActive && "active")}
             >
-              <span style={{ color: isActive ? "var(--primary)" : "var(--on-surface-variant)" }}>
+              <span className={isActive ? "text-primary" : "text-muted-foreground"}>
                 {item.icon}
               </span>
               {item.label}
@@ -73,14 +71,13 @@ export default function Sidebar() {
         })}
       </nav>
 
-      {/* Plan/Quota section */}
       {plan === "free" && (
-        <div className="mx-3 mb-4 p-3 rounded-lg" style={{ background: "rgba(189,157,255,0.06)", border: "1px solid rgba(189,157,255,0.12)" }}>
+        <div className="mx-3 mb-4 p-3 rounded-lg bg-primary/5 border border-primary/10">
           <div className="flex items-center justify-between mb-2">
-            <span style={{ color: "var(--on-surface-variant)", fontSize: "0.75rem" }}>
+            <span className="micro-label">
               Screens used
             </span>
-            <span style={{ color: "var(--primary)", fontSize: "0.75rem", fontWeight: 600 }}>
+            <span className="text-xs font-semibold text-primary">
               {quotaUsed}/{quotaLimit}
             </span>
           </div>
@@ -89,38 +86,35 @@ export default function Sidebar() {
           </div>
           <Link
             href="/billing"
-            className="btn-primary w-full justify-center text-center"
-            style={{ padding: "0.5rem", fontSize: "0.8rem" }}
+            className="command-strip text-black font-semibold rounded-full w-full justify-center text-center block py-2 text-xs hover:shadow-[0_0_20px_rgba(199,155,55,0.3)] transition-all"
           >
-            Upgrade to Pro ✦
+            Upgrade to Pro
           </Link>
         </div>
       )}
 
       {plan === "pro" && (
-        <div className="mx-3 mb-4 p-3 rounded-lg text-center" style={{ background: "rgba(189,157,255,0.06)", border: "1px solid rgba(189,157,255,0.12)" }}>
-          <span className="gradient-text text-sm font-bold">✦ Pro Plan Active</span>
-          <p className="text-xs mt-1" style={{ color: "var(--on-surface-variant)" }}>Unlimited screens</p>
+        <div className="mx-3 mb-4 p-3 rounded-lg bg-accent/5 border border-accent/10 text-center">
+          <span className="micro-label text-accent">Pro Plan Active</span>
+          <p className="text-xs mt-1 text-muted-foreground">Unlimited screens</p>
         </div>
       )}
 
-      {/* User section */}
-      <div className="px-3 pt-3" style={{ borderTop: "1px solid rgba(72,71,77,0.2)" }}>
-        <div className="flex items-center gap-3 px-2 py-2 rounded-lg" style={{ background: "rgba(255,255,255,0.03)" }}>
-          <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 font-semibold text-sm" style={{ background: "var(--gradient-primary)", color: "#000" }}>
+      <div className="px-3 pt-3 border-t border-border">
+        <div className="flex items-center gap-3 px-2 py-2 rounded-lg bg-muted/30">
+          <div className="command-strip w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 font-semibold text-sm text-black">
             {user?.email?.[0]?.toUpperCase() ?? "?"}
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-xs font-medium truncate" style={{ color: "var(--on-surface)" }}>
+            <p className="text-xs font-medium truncate text-foreground">
               {user?.email ?? "Loading..."}
             </p>
-            <p className="text-xs capitalize" style={{ color: "var(--on-surface-variant)" }}>{plan} plan</p>
+            <p className="text-xs capitalize text-muted-foreground">{plan} plan</p>
           </div>
           <button
             onClick={handleSignOut}
             title="Sign out"
-            style={{ color: "var(--on-surface-variant)", flexShrink: 0 }}
-            className="hover:text-white transition-colors"
+            className="text-muted-foreground hover:text-foreground transition-colors flex-shrink-0"
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/>

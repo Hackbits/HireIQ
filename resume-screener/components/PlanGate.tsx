@@ -1,7 +1,8 @@
 "use client";
-// components/PlanGate.tsx - Quota check component
 import Link from "next/link";
 import { useAuth } from "@/lib/auth-context";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 
 interface PlanGateProps {
   children: React.ReactNode;
@@ -10,58 +11,58 @@ interface PlanGateProps {
 export default function PlanGate({ children }: PlanGateProps) {
   const { plan, quotaUsed, quotaLimit } = useAuth();
 
-  // Pro users always have access
   if (plan === "pro") return <>{children}</>;
 
-  // Free users who have remaining quota
   if (quotaUsed < quotaLimit) return <>{children}</>;
 
-  // Over quota — show upgrade wall
   return (
-    <div className="card text-center py-12" style={{ border: "1px solid rgba(189,157,255,0.15)" }}>
-      <div className="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4" style={{ background: "rgba(189,157,255,0.1)" }}>
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: "var(--primary)" }}>
-          <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/>
-          <line x1="12" y1="16" x2="12.01" y2="16"/>
-        </svg>
-      </div>
-
-      <h3 className="text-xl font-bold mb-2" style={{ fontFamily: "var(--font-manrope)" }}>
-        Monthly Quota Reached
-      </h3>
-      <p className="mb-1" style={{ color: "var(--on-surface-variant)", fontSize: "0.9rem" }}>
-        You&apos;ve used all <strong>{quotaLimit}</strong> free resume screens this month.
-      </p>
-      <p className="mb-8" style={{ color: "var(--on-surface-variant)", fontSize: "0.875rem" }}>
-        Upgrade to Pro for unlimited screens, priority processing, and more.
-      </p>
-
-      <div className="flex flex-col sm:flex-row gap-3 justify-center items-center">
-        <Link href="/billing" className="btn-primary" style={{ padding: "0.75rem 2rem", fontSize: "1rem" }}>
-          ✦ Upgrade to Pro
-        </Link>
-        <span style={{ color: "var(--on-surface-variant)", fontSize: "0.8rem" }}>Quota resets monthly</span>
-      </div>
-
-      {/* Mini comparison */}
-      <div className="mt-8 grid grid-cols-2 gap-3 max-w-sm mx-auto">
-        <div className="p-4 rounded-lg text-left" style={{ background: "var(--surface-container-high)" }}>
-          <p className="font-semibold mb-2 text-sm">Free</p>
-          <ul className="space-y-1">
-            <li className="text-xs" style={{ color: "var(--on-surface-variant)" }}>✓ 20 screens/month</li>
-            <li className="text-xs" style={{ color: "var(--on-surface-variant)" }}>✓ AI scoring</li>
-            <li className="text-xs" style={{ color: "var(--on-surface-variant)" }}>✓ Basic reports</li>
-          </ul>
+    <Card className="text-center py-12 border-primary/20">
+      <CardContent>
+        <div className="command-strip w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-black">
+            <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/>
+            <line x1="12" y1="16" x2="12.01" y2="16"/>
+          </svg>
         </div>
-        <div className="p-4 rounded-lg text-left" style={{ background: "rgba(189,157,255,0.08)", border: "1px solid rgba(189,157,255,0.2)" }}>
-          <p className="font-semibold mb-2 text-sm gradient-text">Pro ✦</p>
-          <ul className="space-y-1">
-            <li className="text-xs" style={{ color: "var(--on-surface-variant)" }}>✓ Unlimited screens</li>
-            <li className="text-xs" style={{ color: "var(--on-surface-variant)" }}>✓ Priority AI</li>
-            <li className="text-xs" style={{ color: "var(--on-surface-variant)" }}>✓ CSV export</li>
-          </ul>
+
+        <h3 className="font-display-family text-2xl font-bold tracking-tight mb-2">
+          Monthly Quota Reached
+        </h3>
+        <p className="text-muted-foreground text-sm mb-1">
+          You&apos;ve used all <strong>{quotaLimit}</strong> free resume screens this month.
+        </p>
+        <p className="text-muted-foreground text-sm mb-8">
+          Upgrade to Pro for unlimited screens, priority processing, and more.
+        </p>
+
+        <div className="flex flex-col sm:flex-row gap-3 justify-center items-center">
+          <Link href="/billing">
+            <Button variant="primary" size="lg">
+              Upgrade to Pro
+            </Button>
+          </Link>
+          <span className="text-muted-foreground text-xs">Quota resets monthly</span>
         </div>
-      </div>
-    </div>
+
+        <div className="mt-8 grid grid-cols-2 gap-3 max-w-sm mx-auto">
+          <div className="p-4 rounded-lg bg-muted/50 text-left">
+            <p className="font-semibold mb-2 text-sm">Free</p>
+            <ul className="space-y-1">
+              <li className="text-xs text-muted-foreground">✓ 20 screens/month</li>
+              <li className="text-xs text-muted-foreground">✓ AI scoring</li>
+              <li className="text-xs text-muted-foreground">✓ Basic reports</li>
+            </ul>
+          </div>
+          <div className="p-4 rounded-lg bg-primary/5 border border-primary/20 text-left">
+            <p className="font-semibold mb-2 text-sm text-primary">Pro</p>
+            <ul className="space-y-1">
+              <li className="text-xs text-muted-foreground">✓ Unlimited screens</li>
+              <li className="text-xs text-muted-foreground">✓ Priority AI</li>
+              <li className="text-xs text-muted-foreground">✓ CSV export</li>
+            </ul>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
   );
 }

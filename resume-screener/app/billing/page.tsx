@@ -1,10 +1,11 @@
 "use client";
-// app/billing/page.tsx - Billing & plan management
 import { useEffect, useState } from "react";
 import { useAuth } from "@/lib/auth-context";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense } from "react";
 import UpgradeModal from "@/components/UpgradeModal";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 
 const PRO_FEATURES = [
   "Unlimited resume screens",
@@ -42,7 +43,7 @@ function BillingContent() {
     const success = searchParams.get("success");
     const canceled = searchParams.get("canceled");
     if (success === "true") {
-      setMessage({ type: "success", text: "🎉 Welcome to Pro! Your plan has been upgraded." });
+      setMessage({ type: "success", text: "Welcome to Pro! Your plan has been upgraded." });
       refreshUserData();
     } else if (canceled === "true") {
       setMessage({ type: "error", text: "Checkout was canceled. You can try again anytime." });
@@ -56,63 +57,52 @@ function BillingContent() {
 
   const handleUpgradeSuccess = async () => {
     setIsModalOpen(false);
-    setMessage({ type: "success", text: "🎉 Welcome to Pro! Your account has been upgraded." });
+    setMessage({ type: "success", text: "Welcome to Pro! Your account has been upgraded." });
     await refreshUserData();
   };
 
   if (loading) {
     return (
-      <div className="flex flex-col min-h-screen">
-        <main className="flex-1 flex items-center justify-center">
-          <div className="loader" style={{ width: 40, height: 40 }} />
-        </main>
+      <div className="flex items-center justify-center min-h-[60vh]">
+        <div className="loader" style={{ width: 40, height: 40 }} />
       </div>
     );
   }
 
   return (
-    <div className="flex flex-col min-h-screen">
-      <main className="flex-1 p-8 overflow-y-auto max-w-4xl mx-auto w-full">
-        {/* Header */}
-        <div className="page-header mb-8">
-          <div>
-            <h1 className="page-title">Billing & Plans</h1>
-            <p style={{ color: "var(--on-surface-variant)", fontSize: "0.875rem", marginTop: "0.25rem" }}>
-              {plan === "pro" ? "You&apos;re on the Pro plan ✦" : "Choose the plan that works for you"}
-            </p>
-          </div>
+    <div className="animate-fade-up">
+      <div className="page-header mb-8">
+        <div>
+          <h1 className="font-display-family text-3xl font-bold tracking-tight">Billing & Plans</h1>
+          <p className="text-muted-foreground text-sm mt-1">
+            {plan === "pro" ? "You're on the Pro plan" : "Choose the plan that works for you"}
+          </p>
         </div>
+      </div>
 
-        {/* Status messages */}
-        {message && (
-          <div
-            className="mb-6 p-4 rounded-lg fade-in"
-            style={{
-              background: message.type === "success" ? "rgba(74,222,128,0.1)" : "rgba(255,110,132,0.1)",
-              border: `1px solid ${message.type === "success" ? "rgba(74,222,128,0.2)" : "rgba(255,110,132,0.2)"}`,
-              color: message.type === "success" ? "#4ade80" : "var(--error)",
-            }}
-          >
-            {message.text}
-          </div>
-        )}
+      {message && (
+        <div
+          className="mb-6 p-4 rounded-lg animate-fade-up"
+          style={{
+            background: message.type === "success" ? "color-mix(in oklch, var(--color-accent), transparent 80%)" : "color-mix(in oklch, var(--color-destructive), transparent 80%)",
+            border: `1px solid ${message.type === "success" ? "color-mix(in oklch, var(--color-accent), transparent 60%)" : "color-mix(in oklch, var(--color-destructive), transparent 60%)"}`,
+            color: message.type === "success" ? "var(--color-accent)" : "var(--color-destructive)",
+          }}
+        >
+          {message.text}
+        </div>
+      )}
 
-        {/* Plan comparison */}
-        <div className="grid md:grid-cols-2 gap-5">
-          {/* Free Plan */}
-          <div
-            className="card"
-            style={{
-              border: plan === "free" ? "1px solid rgba(189,157,255,0.3)" : "1px solid rgba(72,71,77,0.2)",
-            }}
-          >
+      <div className="grid md:grid-cols-2 gap-5">
+        <Card className={plan === "free" ? "border-primary/30" : ""}>
+          <CardContent className="p-6">
             <div className="flex items-start justify-between mb-4">
               <div>
-                <h2 className="text-xl font-bold" style={{ fontFamily: "var(--font-manrope)" }}>Free</h2>
-                <p className="text-3xl font-bold mt-1" style={{ fontFamily: "var(--font-manrope)" }}>$0<span className="text-sm font-normal" style={{ color: "var(--on-surface-variant)" }}>/mo</span></p>
+                <h2 className="font-display-family text-xl font-bold tracking-tight">Free</h2>
+                <p className="font-display-family text-3xl font-bold mt-1">$0<span className="text-sm font-normal text-muted-foreground">/mo</span></p>
               </div>
               {plan === "free" && (
-                <span className="text-xs font-semibold px-3 py-1 rounded-full" style={{ background: "rgba(189,157,255,0.1)", color: "var(--primary)" }}>
+                <span className="micro-label bg-primary/10 text-primary border border-primary/20 rounded-full px-3 py-1">
                   Current Plan
                 </span>
               )}
@@ -120,8 +110,8 @@ function BillingContent() {
 
             <ul className="space-y-2.5 mb-6">
               {FREE_FEATURES.map((f) => (
-                <li key={f} className="flex items-start gap-2 text-sm" style={{ color: "var(--on-surface-variant)" }}>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="mt-0.5 flex-shrink-0" style={{ color: "var(--on-surface-variant)" }}>
+                <li key={f} className="flex items-start gap-2 text-sm text-muted-foreground">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="mt-0.5 flex-shrink-0 text-muted-foreground">
                     <polyline points="20 6 9 17 4 12"/>
                   </svg>
                   {f}
@@ -129,43 +119,34 @@ function BillingContent() {
               ))}
             </ul>
 
-            <button disabled className="btn-secondary w-full justify-center" style={{ opacity: 0.5, cursor: "default" }}>
+            <Button variant="secondary" className="w-full" disabled style={{ opacity: 0.5 }}>
               {plan === "free" ? "Current Plan" : "Downgrade unavailable"}
-            </button>
+            </Button>
+          </CardContent>
+        </Card>
+
+        <Card className={`relative overflow-hidden ${plan === "pro" ? "border-accent/30" : "border-primary/30"}`}>
+          <div className="command-strip absolute top-0 right-0 px-3 py-1 text-xs font-bold text-black rounded-bl-xl">
+            POPULAR
           </div>
 
-          {/* Pro Plan */}
-          <div
-            className="card relative overflow-hidden"
-            style={{
-              border: plan === "pro" ? "1px solid rgba(74,222,128,0.3)" : "1px solid rgba(189,157,255,0.3)",
-              boxShadow: "0 0 30px rgba(124,58,237,0.1)",
-            }}
-          >
-            {/* Popular badge */}
-            <div
-              className="absolute top-0 right-0 px-3 py-1 text-xs font-bold"
-              style={{ background: "var(--gradient-primary)", color: "#000", borderRadius: "0 8px 0 8px" }}
-            >
-              POPULAR
-            </div>
-
+          <CardContent className="p-6">
             <div className="flex items-start justify-between mb-4">
               <div>
-                <h2 className="text-xl font-bold gradient-text" style={{ fontFamily: "var(--font-manrope)" }}>Pro ✦</h2>
-                <p className="text-3xl font-bold mt-1" style={{ fontFamily: "var(--font-manrope)" }}>$29<span className="text-sm font-normal" style={{ color: "var(--on-surface-variant)" }}>/mo</span></p>
+                <h2 className="font-display-family text-xl font-bold tracking-tight text-primary">Pro</h2>
+                <p className="font-display-family text-3xl font-bold mt-1">$29<span className="text-sm font-normal text-muted-foreground">/mo</span></p>
               </div>
               {plan === "pro" && (
-                <span className="text-xs font-semibold px-3 py-1 rounded-full" style={{ background: "rgba(74,222,128,0.1)", color: "#4ade80", border: "1px solid rgba(74,222,128,0.2)", marginTop: "1.5rem" }}>
-                  ✓ Active
+                <span className="micro-label bg-accent/10 text-accent border border-accent/20 rounded-full px-3 py-1 mt-6">
+                  Active
                 </span>
               )}
             </div>
 
             <ul className="space-y-2.5 mb-6">
               {PRO_FEATURES.map((f) => (
-                <li key={f} className="flex items-start gap-2 text-sm" style={{ color: "var(--on-surface)" }}>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4ade80" strokeWidth="2.5" className="mt-0.5 flex-shrink-0">
+                <li key={f} className="flex items-start gap-2 text-sm text-foreground">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="mt-0.5 flex-shrink-0 text-accent">
                     <polyline points="20 6 9 17 4 12"/>
                   </svg>
                   {f}
@@ -174,41 +155,41 @@ function BillingContent() {
             </ul>
 
             {plan === "pro" ? (
-              <button disabled className="btn-primary w-full justify-center" style={{ opacity: 0.7, cursor: "default" }}>
-                ✦ Pro Plan Active
-              </button>
+              <Button variant="primary" className="w-full" disabled style={{ opacity: 0.7 }}>
+                Pro Plan Active
+              </Button>
             ) : (
-              <button
+              <Button
                 id="upgrade-pro-btn"
+                variant="primary"
+                size="lg"
+                className="w-full"
                 onClick={handleUpgrade}
                 disabled={checkoutLoading}
-                className="btn-primary w-full justify-center"
-                style={{ padding: "0.875rem" }}
               >
                 {checkoutLoading ? (
-                  <div className="loader" style={{ width: 18, height: 18, borderTopColor: "#000" }} />
+                  <div className="loader" style={{ width: 18, height: 18 }} />
                 ) : (
-                  "Upgrade to Pro →"
+                  "Upgrade to Pro"
                 )}
-              </button>
+              </Button>
             )}
-          </div>
-        </div>
+          </CardContent>
+        </Card>
+      </div>
 
-        {/* FAQ */}
-        <div className="mt-10">
-          <p className="text-xs text-center" style={{ color: "var(--on-surface-variant)" }}>
-            Payments are processed securely via Stripe. Cancel anytime from your Stripe Customer Portal.
-            <br />
-            Questions? Email us at support@hireiq.app
-          </p>
-        </div>
-      </main>
-      
-      <UpgradeModal 
-        isOpen={isModalOpen} 
-        onClose={() => setIsModalOpen(false)} 
-        onSuccess={handleUpgradeSuccess} 
+      <div className="mt-10">
+        <p className="text-xs text-center text-muted-foreground">
+          Payments are processed securely via Stripe. Cancel anytime from your Stripe Customer Portal.
+          <br />
+          Questions? Email us at support@hireiq.app
+        </p>
+      </div>
+
+      <UpgradeModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSuccess={handleUpgradeSuccess}
       />
     </div>
   );

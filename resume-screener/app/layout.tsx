@@ -1,16 +1,25 @@
 import type { Metadata } from "next";
-import { Inter, Manrope } from "next/font/google";
+import { IBM_Plex_Sans, Fraunces, IBM_Plex_Mono } from "next/font/google";
+import { ThemeProvider } from "next-themes";
 import "./globals.css";
 
-const inter = Inter({
+const ibmPlexSans = IBM_Plex_Sans({
   subsets: ["latin"],
-  variable: "--font-inter",
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-body",
   display: "swap",
 });
 
-const manrope = Manrope({
+const fraunces = Fraunces({
   subsets: ["latin"],
-  variable: "--font-manrope",
+  variable: "--font-display-family",
+  display: "swap",
+});
+
+const ibmPlexMono = IBM_Plex_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  variable: "--font-code",
   display: "swap",
 });
 
@@ -35,14 +44,25 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${inter.variable} ${manrope.variable}`}>
-      <body className="bg-[var(--background)] text-[var(--on-background)] antialiased">
-        <AuthProvider>
-          <Navbar />
-          <div className="pt-16">
-            {children}
-          </div>
-        </AuthProvider>
+    <html
+      lang="en"
+      className={`${ibmPlexSans.variable} ${fraunces.variable} ${ibmPlexMono.variable}`}
+      suppressHydrationWarning
+    >
+      <body className="bg-background text-foreground antialiased">
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem={false}
+          disableTransitionOnChange
+        >
+          <AuthProvider>
+            <Navbar />
+            <div className="pt-16">
+              {children}
+            </div>
+          </AuthProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
