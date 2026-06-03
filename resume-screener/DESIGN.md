@@ -259,7 +259,7 @@ Standard data table with sticky header. Column headers use `.micro-label`.
 Top nav: **52px tall**, white background, hairline bottom border, no shadow.
 
 ```tsx
-<nav className="h-[52px] border-b border-border bg-card flex items-center px-6 gap-8 sticky top-0 z-50">
+<nav className="h-13 border-b border-border bg-card flex items-center px-6 gap-8 sticky top-0 z-50">
   <span className="text-sm font-bold tracking-tight">
     hire<span className="text-primary">IQ</span>
   </span>
