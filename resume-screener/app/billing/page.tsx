@@ -73,7 +73,7 @@ function BillingContent() {
     <div className="animate-fade-up">
       <div className="page-header mb-8">
         <div>
-          <h1 className="font-display-family text-3xl font-bold tracking-tight">Billing & Plans</h1>
+          <h1 className="text-2xl font-bold tracking-tight">Billing & Plans</h1>
           <p className="text-muted-foreground text-sm mt-1">
             {plan === "pro" ? "You're on the Pro plan" : "Choose the plan that works for you"}
           </p>
@@ -82,27 +82,22 @@ function BillingContent() {
 
       {message && (
         <div
-          className="mb-6 p-4 rounded-lg animate-fade-up"
-          style={{
-            background: message.type === "success" ? "color-mix(in oklch, var(--color-accent), transparent 80%)" : "color-mix(in oklch, var(--color-destructive), transparent 80%)",
-            border: `1px solid ${message.type === "success" ? "color-mix(in oklch, var(--color-accent), transparent 60%)" : "color-mix(in oklch, var(--color-destructive), transparent 60%)"}`,
-            color: message.type === "success" ? "var(--color-accent)" : "var(--color-destructive)",
-          }}
+          className={`mb-6 p-4 rounded-md animate-fade-up ${message.type === "success" ? "bg-success/10 border border-success/20 text-success" : "bg-destructive/10 border border-destructive/20 text-destructive"}`}
         >
           {message.text}
         </div>
       )}
 
       <div className="grid md:grid-cols-2 gap-5">
-        <Card className={plan === "free" ? "border-primary/30" : ""}>
+        <Card>
           <CardContent className="p-6">
             <div className="flex items-start justify-between mb-4">
               <div>
-                <h2 className="font-display-family text-xl font-bold tracking-tight">Free</h2>
-                <p className="font-display-family text-3xl font-bold mt-1">$0<span className="text-sm font-normal text-muted-foreground">/mo</span></p>
+                <h2 className="font-bold tracking-tight text-xl">Free</h2>
+                <p className="text-3xl font-bold mt-1">$0<span className="text-sm font-normal text-muted-foreground">/mo</span></p>
               </div>
               {plan === "free" && (
-                <span className="micro-label bg-primary/10 text-primary border border-primary/20 rounded-full px-3 py-1">
+                <span className="text-xs text-muted-foreground border border-border rounded-md px-2 py-0.5">
                   Current Plan
                 </span>
               )}
@@ -119,25 +114,25 @@ function BillingContent() {
               ))}
             </ul>
 
-            <Button variant="secondary" className="w-full" disabled style={{ opacity: 0.5 }}>
+            <Button variant="outline" className="w-full" disabled>
               {plan === "free" ? "Current Plan" : "Downgrade unavailable"}
             </Button>
           </CardContent>
         </Card>
 
-        <Card className={`relative overflow-hidden ${plan === "pro" ? "border-accent/30" : "border-primary/30"}`}>
-          <div className="command-strip absolute top-0 right-0 px-3 py-1 text-xs font-bold text-black rounded-bl-xl">
+        <Card className="relative overflow-hidden">
+          <div className="bg-primary text-primary-foreground text-xs font-bold px-3 py-1 absolute top-0 right-0 rounded-bl-md">
             POPULAR
           </div>
 
           <CardContent className="p-6">
             <div className="flex items-start justify-between mb-4">
               <div>
-                <h2 className="font-display-family text-xl font-bold tracking-tight text-primary">Pro</h2>
-                <p className="font-display-family text-3xl font-bold mt-1">$29<span className="text-sm font-normal text-muted-foreground">/mo</span></p>
+                <h2 className="text-xl font-bold tracking-tight text-primary">Pro</h2>
+                <p className="text-3xl font-bold mt-1">$29<span className="text-sm font-normal text-muted-foreground">/mo</span></p>
               </div>
               {plan === "pro" && (
-                <span className="micro-label bg-accent/10 text-accent border border-accent/20 rounded-full px-3 py-1 mt-6">
+                <span className="text-xs text-primary bg-primary/10 rounded-md px-2 py-0.5">
                   Active
                 </span>
               )}
@@ -146,7 +141,7 @@ function BillingContent() {
             <ul className="space-y-2.5 mb-6">
               {PRO_FEATURES.map((f) => (
                 <li key={f} className="flex items-start gap-2 text-sm text-foreground">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="mt-0.5 flex-shrink-0 text-accent">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="mt-0.5 flex-shrink-0 text-primary">
                     <polyline points="20 6 9 17 4 12"/>
                   </svg>
                   {f}
@@ -155,7 +150,7 @@ function BillingContent() {
             </ul>
 
             {plan === "pro" ? (
-              <Button variant="primary" className="w-full" disabled style={{ opacity: 0.7 }}>
+              <Button variant="primary" className="w-full" disabled>
                 Pro Plan Active
               </Button>
             ) : (

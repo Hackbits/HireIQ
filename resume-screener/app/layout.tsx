@@ -1,25 +1,19 @@
 import type { Metadata } from "next";
-import { IBM_Plex_Sans, Fraunces, IBM_Plex_Mono } from "next/font/google";
+import { Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import "./globals.css";
 
-const ibmPlexSans = IBM_Plex_Sans({
+const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "500", "600", "700", "800"],
   variable: "--font-body",
   display: "swap",
 });
 
-const fraunces = Fraunces({
-  subsets: ["latin"],
-  variable: "--font-display-family",
-  display: "swap",
-});
-
-const ibmPlexMono = IBM_Plex_Mono({
+const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
   weight: ["400", "500", "600"],
-  variable: "--font-code",
+  variable: "--font-mono",
   display: "swap",
 });
 
@@ -46,19 +40,19 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${ibmPlexSans.variable} ${fraunces.variable} ${ibmPlexMono.variable}`}
+      className={`${plusJakartaSans.variable} ${jetbrainsMono.variable}`}
       suppressHydrationWarning
     >
       <body className="bg-background text-foreground antialiased">
         <ThemeProvider
           attribute="class"
-          defaultTheme="dark"
+          defaultTheme="light"
           enableSystem={false}
           disableTransitionOnChange
         >
           <AuthProvider>
             <Navbar />
-            <div className="pt-16">
+            <div className="pt-13">
               {children}
             </div>
           </AuthProvider>

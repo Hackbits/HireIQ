@@ -149,7 +149,7 @@ export default function JobResultsPage() {
 
         <div className="flex items-start justify-between gap-4 flex-wrap">
           <div>
-            <h1 className="font-display-family text-3xl font-bold tracking-tight">{job.title}</h1>
+            <h1 className="text-2xl font-bold tracking-tight">{job.title}</h1>
             <p className="text-muted-foreground text-sm mt-1">
               {candidates.length} candidate{candidates.length !== 1 ? "s" : ""} screened
               {job.createdAt && ` · ${new Date(job.createdAt).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}`}
@@ -173,28 +173,28 @@ export default function JobResultsPage() {
 
       {candidates.length > 0 && (
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
-          <Card className="border-accent/20">
+          <Card className="border-border">
             <CardContent className="p-4">
               <p className="micro-label mb-1">Strong Fit</p>
-              <p className="text-2xl font-bold text-accent font-display-family">{stats.strong}</p>
+              <p className="text-2xl font-bold">{stats.strong}</p>
             </CardContent>
           </Card>
-          <Card className="border-primary/20">
+          <Card className="border-border">
             <CardContent className="p-4">
               <p className="micro-label mb-1">Possible Fit</p>
-              <p className="text-2xl font-bold text-primary font-display-family">{stats.possible}</p>
+              <p className="text-2xl font-bold">{stats.possible}</p>
             </CardContent>
           </Card>
-          <Card className="border-destructive/20">
+          <Card className="border-border">
             <CardContent className="p-4">
               <p className="micro-label mb-1">Not a Fit</p>
-              <p className="text-2xl font-bold score-low font-display-family">{stats.notFit}</p>
+              <p className="text-2xl font-bold">{stats.notFit}</p>
             </CardContent>
           </Card>
-          <Card>
+          <Card className="border-border">
             <CardContent className="p-4">
               <p className="micro-label mb-1">Avg Score</p>
-              <p className="text-2xl font-bold text-primary font-display-family">{stats.avgScore}</p>
+              <p className="text-2xl font-bold">{stats.avgScore}</p>
             </CardContent>
           </Card>
         </div>
@@ -224,7 +224,7 @@ export default function JobResultsPage() {
       {candidates.length === 0 ? (
         <Card className="text-center py-16">
           <CardContent>
-            <p className="font-display-family text-xl font-bold mb-2">No candidates yet</p>
+            <p className="text-lg font-bold mb-2">No candidates yet</p>
             <p className="text-muted-foreground text-sm">
               Go back and upload resumes to start screening.
             </p>

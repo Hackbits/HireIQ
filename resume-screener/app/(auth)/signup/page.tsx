@@ -33,7 +33,7 @@ export default function SignupPage() {
 
   if (authLoading) {
     return (
-      <div className="planner-bg min-h-screen flex items-center justify-center">
+      <div className="page-bg min-h-screen flex items-center justify-center">
         <div className="w-8 h-8 rounded-full border-4 border-primary border-t-transparent animate-spin" />
       </div>
     );
@@ -82,11 +82,11 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="planner-bg min-h-screen flex items-center justify-center p-4">
+    <div className="page-bg flex items-center justify-center p-4">
       <Card className="w-full max-w-md">
         <CardContent className="p-8">
           <div className="text-center mb-8">
-            <h1 className="font-display-family text-3xl font-bold tracking-tight text-foreground mb-2">
+            <h1 className="font-bold tracking-tight text-2xl text-foreground mb-2">
               Create Account
             </h1>
             <p className="text-sm text-muted-foreground">
@@ -95,14 +95,14 @@ export default function SignupPage() {
           </div>
 
           {error && (
-            <div className="mb-4 p-3 rounded-xl bg-destructive/10 border border-destructive/20 text-destructive text-sm">
+            <div className="mb-4 p-3 rounded-md bg-destructive/10 border border-destructive/20 text-destructive text-sm">
               {error}
             </div>
           )}
 
           <form onSubmit={handleEmailSignup} className="space-y-4">
             <div>
-              <label className="micro-label block mb-1.5 text-foreground">
+              <label className="text-xs font-medium text-muted-foreground block mb-1.5">
                 Full Name
               </label>
               <Input
@@ -114,7 +114,7 @@ export default function SignupPage() {
               />
             </div>
             <div>
-              <label className="micro-label block mb-1.5 text-foreground">
+              <label className="text-xs font-medium text-muted-foreground block mb-1.5">
                 Organization / Company Name
               </label>
               <Input
@@ -126,12 +126,12 @@ export default function SignupPage() {
               />
             </div>
             <div>
-              <label className="micro-label block mb-1.5 text-foreground">
+              <label className="text-xs font-medium text-muted-foreground block mb-1.5">
                 Organization Size
               </label>
               <select
                 required
-                className="input-field w-full"
+                className="bg-secondary border border-border text-foreground rounded-md w-full h-9 px-3 py-1.5 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                 value={organizationSize}
                 onChange={(e) => setOrganizationSize(e.target.value)}
               >
@@ -145,7 +145,7 @@ export default function SignupPage() {
               </select>
             </div>
             <div>
-              <label className="micro-label block mb-1.5 text-foreground">
+              <label className="text-xs font-medium text-muted-foreground block mb-1.5">
                 Work Email
               </label>
               <Input
@@ -157,7 +157,7 @@ export default function SignupPage() {
               />
             </div>
             <div>
-              <label className="micro-label block mb-1.5 text-foreground">
+              <label className="text-xs font-medium text-muted-foreground block mb-1.5">
                 Password
               </label>
               <Input

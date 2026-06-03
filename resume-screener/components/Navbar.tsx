@@ -31,13 +31,13 @@ export default function Navbar() {
   const quotaPercent = plan === "pro" ? 0 : Math.min((quotaUsed / quotaLimit) * 100, 100);
 
   return (
-    <header className="fixed top-0 z-50 w-full bg-background/60 backdrop-blur-xl border-b border-border">
-      <div className="container mx-auto px-4 h-16 flex items-center justify-between">
+    <header className="fixed top-0 z-50 w-full bg-card border-b border-border">
+      <div className="container mx-auto px-4 h-13 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2 group">
-          <div className="command-strip w-8 h-8 rounded-lg flex items-center justify-center font-bold text-black shadow-[0_0_15px_rgba(199,155,55,0.3)] group-hover:shadow-[0_0_25px_rgba(199,155,55,0.5)] transition-all">
+          <div className="bg-primary text-primary-foreground text-xs font-bold rounded-md w-8 h-8 flex items-center justify-center">
             HQ
           </div>
-          <span className="font-display-family text-xl font-bold tracking-tight text-foreground">HireIQ</span>
+          <span className="text-sm font-bold tracking-tight"><span className="text-foreground">Hire</span><span className="text-primary">IQ</span></span>
         </Link>
 
         <nav className="hidden md:flex items-center gap-8 text-sm font-medium">
@@ -66,16 +66,16 @@ export default function Navbar() {
                 <div className="hidden sm:flex flex-col items-end mr-2">
                   <span className="micro-label mb-0.5">Free Plan ({quotaUsed}/{quotaLimit})</span>
                   <div className="w-24 h-1.5 bg-muted rounded-full overflow-hidden">
-                    <div className="h-full progress-bar-fill" style={{ width: `${quotaPercent}%` }}></div>
+                    <div className="h-full bg-primary rounded-full" style={{ width: `${quotaPercent}%` }}></div>
                   </div>
                 </div>
               )}
 
               <button
                 onClick={() => setDropdownOpen(!dropdownOpen)}
-                className="flex items-center gap-2 px-1.5 py-1.5 rounded-full bg-card border border-border hover:border-primary/30 transition-colors focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50"
+                className="flex items-center gap-2 px-1.5 py-1.5 rounded-md bg-card border border-border hover:border-primary/30 transition-colors focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50"
               >
-                <div className="w-7 h-7 rounded-full command-strip flex items-center justify-center text-xs font-bold text-black shadow-inner">
+                <div className="w-7 h-7 rounded-md bg-primary/10 text-primary flex items-center justify-center text-xs font-bold">
                   {profile?.email?.charAt(0).toUpperCase() || user.email?.charAt(0).toUpperCase() || "U"}
                 </div>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={`text-muted-foreground transition-transform ${dropdownOpen ? 'rotate-180' : ''}`}>
@@ -84,7 +84,7 @@ export default function Navbar() {
               </button>
 
               {dropdownOpen && (
-                <div className="absolute top-12 right-0 w-56 bg-card backdrop-blur-xl border border-border rounded-xl shadow-2xl py-2 z-50 animate-scale-in">
+                <div className="absolute top-12 right-0 w-56 bg-card border border-border rounded-xl shadow-lg py-2 z-50 animate-scale-in">
                   <div className="px-4 py-3 border-b border-border">
                     <p className="text-sm font-medium text-foreground truncate">{profile?.fullName || profile?.organizationName || user.email}</p>
                     <p className="text-xs text-muted-foreground truncate">{user.email}</p>
@@ -126,7 +126,7 @@ export default function Navbar() {
               )}
             </div>
           ) : (
-            <Link href="/login" className="command-strip text-black font-semibold rounded-full px-5 py-2.5 text-sm hover:shadow-[0_0_30px_rgba(199,155,55,0.4)] hover:-translate-y-0.5 transition-all">
+            <Link href="/login" className="bg-primary text-primary-foreground font-semibold rounded-md px-4 py-2 text-sm hover:bg-primary/90 transition-colors">
               Get Started
             </Link>
           )}

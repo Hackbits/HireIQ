@@ -29,7 +29,7 @@ export default function LoginPage() {
 
   if (authLoading) {
     return (
-      <div className="planner-bg min-h-screen flex items-center justify-center">
+      <div className="page-bg min-h-screen flex items-center justify-center">
         <div className="w-8 h-8 rounded-full border-4 border-primary border-t-transparent animate-spin" />
       </div>
     );
@@ -64,11 +64,11 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="planner-bg min-h-screen flex items-center justify-center p-4">
+    <div className="page-bg flex items-center justify-center p-4">
       <Card className="w-full max-w-md">
         <CardContent className="p-8">
           <div className="text-center mb-8">
-            <h1 className="font-display-family text-3xl font-bold tracking-tight text-foreground mb-2">
+            <h1 className="font-bold tracking-tight text-2xl text-foreground mb-2">
               Welcome Back
             </h1>
             <p className="text-sm text-muted-foreground">
@@ -77,14 +77,14 @@ export default function LoginPage() {
           </div>
 
           {error && (
-            <div className="mb-4 p-3 rounded-xl bg-destructive/10 border border-destructive/20 text-destructive text-sm">
+            <div className="mb-4 p-3 rounded-md bg-destructive/10 border border-destructive/20 text-destructive text-sm">
               {error}
             </div>
           )}
 
           <form onSubmit={handleEmailLogin} className="space-y-4">
             <div>
-              <label className="micro-label block mb-1.5 text-foreground">
+              <label className="text-xs font-medium text-muted-foreground block mb-1.5">
                 Email
               </label>
               <Input
@@ -96,7 +96,7 @@ export default function LoginPage() {
               />
             </div>
             <div>
-              <label className="micro-label block mb-1.5 text-foreground">
+              <label className="text-xs font-medium text-muted-foreground block mb-1.5">
                 Password
               </label>
               <Input

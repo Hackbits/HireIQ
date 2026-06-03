@@ -89,9 +89,9 @@ export default function DashboardPage() {
 
   return (
     <div className="animate-fade-up">
-      <div className="page-header mb-8">
+      <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="font-display-family text-3xl font-bold tracking-tight">Dashboard</h1>
+          <h1 className="text-2xl font-bold tracking-tight">Dashboard</h1>
           <p className="text-muted-foreground text-sm mt-1">
             Manage your jobs and AI candidate screenings.
           </p>
@@ -114,45 +114,41 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
       ) : jobs.length === 0 ? (
-        <Card className="text-center py-16">
-          <CardContent>
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" className="mx-auto mb-4 text-primary">
-              <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
-            </svg>
-            <h2 className="font-display-family text-2xl font-bold tracking-tight mb-2">No jobs created yet</h2>
-            <p className="text-muted-foreground text-sm mb-6">
-              Create your first job to start screening candidates with AI.
-            </p>
-            <Button variant="primary" onClick={() => setShowNewJob(true)}>
-              Create First Job
-            </Button>
-          </CardContent>
-        </Card>
+        <div className="bg-card border border-border rounded-xl text-center py-16 px-8">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" className="mx-auto mb-4 text-muted-foreground">
+            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+          </svg>
+          <h2 className="text-xl font-bold tracking-tight mb-2">No jobs created yet</h2>
+          <p className="text-muted-foreground text-sm mb-6">
+            Create your first job to start screening candidates with AI.
+          </p>
+          <Button variant="primary" onClick={() => setShowNewJob(true)}>
+            Create First Job
+          </Button>
+        </div>
       ) : (
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {jobs.map((job) => (
-            <Card
+            <div
               key={job.id}
               onClick={() => router.push(`/dashboard/${job.id}`)}
-              className="cursor-pointer hover:-translate-y-0.5 transition-all duration-200"
+              className="bg-card border border-border rounded-xl cursor-pointer p-6"
             >
-              <CardContent className="p-6">
-                <h3 className="font-display-family text-lg font-bold tracking-tight truncate mb-1 group-hover:text-primary transition-colors">
-                  {job.title}
-                </h3>
-                <p className="text-xs text-muted-foreground mb-4">
-                  {new Date(job.createdAt).toLocaleDateString()}
-                </p>
-                <div className="flex items-center justify-between">
-                  <span className="micro-label bg-accent/10 text-accent border border-accent/20 rounded-full px-3 py-1">
-                    {job.candidateCount} Candidates
-                  </span>
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-muted-foreground group-hover:translate-x-1 transition-transform">
-                    <line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline>
-                  </svg>
-                </div>
-              </CardContent>
-            </Card>
+              <h3 className="text-lg font-bold tracking-tight truncate mb-1">
+                {job.title}
+              </h3>
+              <p className="text-xs text-muted-foreground mb-4">
+                {new Date(job.createdAt).toLocaleDateString()}
+              </p>
+              <div className="flex items-center justify-between">
+                <span className="text-xs text-muted-foreground border border-border rounded-md px-2 py-0.5">
+                  {job.candidateCount} Candidates
+                </span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-muted-foreground">
+                  <line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </div>
+            </div>
           ))}
         </div>
       )}

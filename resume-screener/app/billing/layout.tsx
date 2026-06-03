@@ -7,8 +7,8 @@ export default function BillingLayout({ children }: { children: React.ReactNode 
     <AuthProvider>
       <div className="flex min-h-screen">
         <Sidebar />
-        <main className="flex-1 overflow-y-auto planner-bg">
-          <div className="container mx-auto max-w-375 px-4 py-8 lg:py-12">
+        <main className="flex-1 overflow-y-auto page-bg">
+          <div className="container mx-auto max-w-6xl px-4 py-8 lg:py-12">
             {children}
           </div>
         </main>

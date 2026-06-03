@@ -162,9 +162,9 @@ export default function UploadForm({ onSuccess }: UploadFormProps) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="paper-card p-6 space-y-5">
+    <form onSubmit={handleSubmit} className="bg-card border border-border rounded-xl p-6 space-y-5">
       <div>
-        <label className="form-label block mb-1.5">Job Title</label>
+        <label className="text-xs font-medium text-muted-foreground block mb-1.5">Job Title</label>
         <Input
           type="text"
           required
@@ -176,7 +176,7 @@ export default function UploadForm({ onSuccess }: UploadFormProps) {
       </div>
 
       <div>
-        <label className="form-label block mb-1.5">Job Description</label>
+        <label className="text-xs font-medium text-muted-foreground block mb-1.5">Job Description</label>
         <textarea
           required
           placeholder="Paste the full job description here..."
@@ -188,9 +188,9 @@ export default function UploadForm({ onSuccess }: UploadFormProps) {
       </div>
 
       <div>
-        <label className="form-label block mb-1.5">Resumes (PDF only)</label>
+        <label className="text-xs font-medium text-muted-foreground block mb-1.5">Resumes (PDF only)</label>
         <div
-          className={`paper-card p-8 text-center cursor-pointer transition-all duration-200 ${isDragActive ? "border-primary" : ""}`}
+          className={`bg-secondary border-2 border-dashed border-border rounded-xl p-8 text-center cursor-pointer hover:border-primary transition-colors ${isDragActive ? "border-primary" : ""}`}
           onDragEnter={handleDrag}
           onDragLeave={handleDrag}
           onDragOver={handleDrag}
@@ -206,7 +206,7 @@ export default function UploadForm({ onSuccess }: UploadFormProps) {
             className="hidden"
             onChange={handleChange}
           />
-          <div className="flex flex-col items-center justify-center pointer-events-none">
+          <div className="flex flex-col items-center justify-center">
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-primary mb-3">
               <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>
             </svg>
@@ -229,10 +229,13 @@ export default function UploadForm({ onSuccess }: UploadFormProps) {
 
               <div className="flex items-center gap-3">
                 {f.status !== "pending" && (
-                  <span className="micro-label px-2 py-0.5 rounded" style={{
-                    background: f.status === "error" ? "color-mix(in oklch, var(--color-destructive), transparent 80%)" : f.status === "done" ? "color-mix(in oklch, var(--color-accent), transparent 80%)" : "color-mix(in oklch, var(--color-primary), transparent 80%)",
-                    color: f.status === "error" ? "var(--color-destructive)" : f.status === "done" ? "var(--color-accent)" : "var(--color-primary)"
-                  }}>
+                  <span className={`rounded-md px-2 py-0.5 text-xs ${
+                    f.status === "error"
+                      ? "bg-destructive/10 text-destructive border border-destructive/20"
+                      : f.status === "done"
+                        ? "bg-success/10 text-success border border-success/20"
+                        : "bg-primary/10 text-primary border border-primary/20"
+                  }`}>
                     {f.status === "uploading" ? "uploading to ut" : f.status}
                   </span>
                 )}

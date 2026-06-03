@@ -39,16 +39,16 @@ export default function Sidebar() {
   const quotaPercent = plan === "pro" ? 0 : Math.min((quotaUsed / quotaLimit) * 100, 100);
 
   return (
-    <aside className="sidebar">
+    <aside className="w-60 min-h-screen bg-card border-r border-border flex flex-col flex-shrink-0">
       <div className="px-5 mb-8">
         <Link href="/" className="inline-flex items-center gap-2">
-          <div className="command-strip w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0">
+          <div className="bg-primary/10 text-primary rounded-md w-8 h-8 flex items-center justify-center flex-shrink-0">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-              <path d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18" stroke="#000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </div>
-          <span className="font-display-family text-base font-bold tracking-tight text-foreground">
-            Hire<span className="text-primary">IQ</span>
+          <span className="text-sm font-bold tracking-tight">
+            hire<span className="text-primary">IQ</span>
           </span>
         </Link>
       </div>
@@ -60,9 +60,12 @@ export default function Sidebar() {
             <Link
               key={item.href}
               href={item.href}
-              className={cn("sidebar-link", isActive && "active")}
+              className={cn(
+                "flex items-center gap-3 px-5 py-2.5 text-sm text-muted-foreground hover:bg-secondary transition-colors rounded-md mx-2",
+                isActive && "bg-primary/10 text-primary font-medium"
+              )}
             >
-              <span className={isActive ? "text-primary" : "text-muted-foreground"}>
+              <span>
                 {item.icon}
               </span>
               {item.label}
@@ -81,12 +84,12 @@ export default function Sidebar() {
               {quotaUsed}/{quotaLimit}
             </span>
           </div>
-          <div className="progress-bar-track mb-3">
-            <div className="progress-bar-fill" style={{ width: `${quotaPercent}%` }} />
+          <div className="bg-secondary rounded-full overflow-hidden mb-3 h-2">
+            <div className="bg-primary rounded-full h-full" style={{ width: `${quotaPercent}%` }} />
           </div>
           <Link
             href="/billing"
-            className="command-strip text-black font-semibold rounded-full w-full justify-center text-center block py-2 text-xs hover:shadow-[0_0_20px_rgba(199,155,55,0.3)] transition-all"
+            className="bg-primary text-primary-foreground font-semibold rounded-md w-full text-center block py-2 text-xs hover:bg-primary/90 transition-colors"
           >
             Upgrade to Pro
           </Link>
@@ -94,15 +97,15 @@ export default function Sidebar() {
       )}
 
       {plan === "pro" && (
-        <div className="mx-3 mb-4 p-3 rounded-lg bg-accent/5 border border-accent/10 text-center">
-          <span className="micro-label text-accent">Pro Plan Active</span>
+        <div className="mx-3 mb-4 px-3 py-2 rounded-lg bg-success/10 border border-success/20 text-center">
+          <span className="micro-label text-success">Pro Plan Active</span>
           <p className="text-xs mt-1 text-muted-foreground">Unlimited screens</p>
         </div>
       )}
 
       <div className="px-3 pt-3 border-t border-border">
         <div className="flex items-center gap-3 px-2 py-2 rounded-lg bg-muted/30">
-          <div className="command-strip w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 font-semibold text-sm text-black">
+          <div className="bg-primary/10 text-primary rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0 font-semibold text-sm">
             {user?.email?.[0]?.toUpperCase() ?? "?"}
           </div>
           <div className="flex-1 min-w-0">

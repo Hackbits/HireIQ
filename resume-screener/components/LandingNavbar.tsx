@@ -8,13 +8,13 @@ export default function LandingNavbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <header className="fixed top-0 z-50 w-full bg-background/60 backdrop-blur-xl border-b border-border">
-      <div className="container mx-auto px-4 h-16 flex items-center justify-between">
+    <header className="fixed top-0 z-50 w-full bg-card border-b border-border">
+      <div className="container mx-auto px-4 h-13 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2 group">
-          <div className="command-strip w-8 h-8 rounded-lg flex items-center justify-center font-bold text-black shadow-[0_0_15px_rgba(199,155,55,0.3)] group-hover:shadow-[0_0_25px_rgba(199,155,55,0.5)] transition-all">
+          <div className="bg-primary text-primary-foreground text-xs font-bold rounded-md w-8 h-8 flex items-center justify-center">
             HQ
           </div>
-          <span className="font-display-family text-xl font-bold tracking-tight text-foreground">HireIQ</span>
+          <span className="text-sm font-bold tracking-tight"><span className="text-foreground">Hire</span><span className="text-primary">IQ</span></span>
         </Link>
 
         <nav className="hidden md:flex items-center gap-8 text-sm font-medium">
@@ -29,8 +29,8 @@ export default function LandingNavbar() {
               <Link href="/dashboard" className="hidden sm:inline-flex text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
                 Dashboard
               </Link>
-              <Link href="/profile" className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-card border border-border hover:border-primary/30 transition-colors">
-                <div className="w-6 h-6 rounded-full command-strip flex items-center justify-center text-xs font-bold text-black">
+              <Link href="/profile" className="flex items-center gap-2 px-3 py-1.5 rounded-md bg-card border border-border hover:border-primary/30 transition-colors">
+                <div className="w-6 h-6 rounded-md bg-primary/10 text-primary flex items-center justify-center text-xs font-bold">
                   {profile?.email?.charAt(0).toUpperCase() || user.email?.charAt(0).toUpperCase() || "U"}
                 </div>
                 <span className="text-sm font-medium text-foreground hidden sm:block">
@@ -39,7 +39,7 @@ export default function LandingNavbar() {
               </Link>
             </div>
           ) : (
-            <Link href="/login" className="command-strip text-black font-semibold rounded-full px-5 py-2.5 text-sm hover:shadow-[0_0_30px_rgba(199,155,55,0.4)] hover:-translate-y-0.5 transition-all">
+            <Link href="/login" className="bg-primary text-primary-foreground font-semibold rounded-md px-4 py-2 text-sm hover:bg-primary/90 transition-colors">
               Get Started
             </Link>
           )}
@@ -68,7 +68,7 @@ export default function LandingNavbar() {
 
       {/* Mobile menu */}
       {mobileOpen && (
-        <div className="md:hidden bg-card/95 backdrop-blur-xl border-b border-border animate-fade-up">
+        <div className="md:hidden bg-card border-b border-border animate-fade-up">
           <nav className="container mx-auto px-4 py-4 flex flex-col gap-3">
             <a
               href="#features"

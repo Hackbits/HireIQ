@@ -34,7 +34,7 @@ export default function ProfilePage() {
     <div className="animate-fade-up">
       <div className="page-header mb-8">
         <div>
-          <h1 className="font-display-family text-3xl font-bold tracking-tight">Your Profile</h1>
+          <h1 className="text-2xl font-bold tracking-tight">Your Profile</h1>
           <p className="text-muted-foreground text-sm mt-1">Manage your account and preferences</p>
         </div>
       </div>
@@ -42,16 +42,16 @@ export default function ProfilePage() {
       <div className="grid gap-6">
         <Card>
           <CardContent className="p-6">
-            <h2 className="font-display-family text-lg font-bold tracking-tight mb-6 pb-4 border-b border-border">Account Information</h2>
+            <h2 className="font-bold tracking-tight text-lg mb-6 pb-4 border-b border-border">Account Information</h2>
 
             <div className="flex items-center gap-6 mb-8">
-              <div className="command-strip w-20 h-20 rounded-full flex items-center justify-center text-3xl font-bold text-black shadow-[0_0_20px_rgba(199,155,55,0.3)]">
+              <div className="bg-primary/10 text-primary w-20 h-20 rounded-full flex items-center justify-center text-3xl font-bold">
                 {profile?.email?.charAt(0).toUpperCase() || user.email?.charAt(0).toUpperCase() || "U"}
               </div>
               <div>
                 <p className="text-sm text-muted-foreground mb-1">Email Address</p>
                 <p className="text-xl font-medium text-foreground">{user.email}</p>
-                <div className="mt-2 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary micro-label">
+                <div className="mt-2 inline-flex items-center gap-1.5 text-xs text-primary bg-primary/10 rounded-md px-2 py-0.5">
                   {plan} Plan
                 </div>
               </div>
@@ -59,29 +59,29 @@ export default function ProfilePage() {
 
             <div className="space-y-4">
               {profile?.fullName && (
-                <div className="p-4 rounded-xl bg-muted/30 border border-border">
-                  <p className="text-sm text-muted-foreground mb-1">Full Name</p>
+                <div>
+                  <p className="text-sm text-muted-foreground">Full Name</p>
                   <p className="text-sm text-foreground">{profile.fullName}</p>
                 </div>
               )}
               {profile?.organizationName && (
                 <div className="grid grid-cols-2 gap-4">
-                  <div className="p-4 rounded-xl bg-muted/30 border border-border">
-                    <p className="text-sm text-muted-foreground mb-1">Organization</p>
+                  <div>
+                    <p className="text-sm text-muted-foreground">Organization</p>
                     <p className="text-sm text-foreground">{profile.organizationName}</p>
                   </div>
-                  <div className="p-4 rounded-xl bg-muted/30 border border-border">
-                    <p className="text-sm text-muted-foreground mb-1">Company Size</p>
+                  <div>
+                    <p className="text-sm text-muted-foreground">Company Size</p>
                     <p className="text-sm text-foreground">{profile.organizationSize || "Unknown"}</p>
                   </div>
                 </div>
               )}
-              <div className="p-4 rounded-xl bg-muted/30 border border-border">
-                <p className="text-sm text-muted-foreground mb-1">User ID</p>
-                <p className="text-sm font-code text-foreground">{user.uid}</p>
+              <div>
+                <p className="text-sm text-muted-foreground">User ID</p>
+                <p className="text-sm font-mono text-foreground">{user.uid}</p>
               </div>
-              <div className="p-4 rounded-xl bg-muted/30 border border-border">
-                <p className="text-sm text-muted-foreground mb-1">Member Since</p>
+              <div>
+                <p className="text-sm text-muted-foreground">Member Since</p>
                 <p className="text-sm text-foreground">
                   {user.metadata.creationTime ? new Date(user.metadata.creationTime).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' }) : "Unknown"}
                 </p>
@@ -92,12 +92,12 @@ export default function ProfilePage() {
 
         <Card>
           <CardContent className="p-6">
-            <h2 className="font-display-family text-lg font-bold tracking-tight mb-6 pb-4 border-b border-border">Current Usage</h2>
+            <h2 className="font-bold tracking-tight text-lg mb-6 pb-4 border-b border-border">Current Usage</h2>
 
             <div className="mb-2 flex justify-between items-end">
               <div>
                 <p className="text-sm font-medium text-foreground mb-1">Resume Screens</p>
-                <p className="font-display-family text-3xl font-bold text-foreground">
+                <p className="text-3xl font-bold text-foreground">
                   {quotaUsed} <span className="text-lg font-normal text-muted-foreground">/ {plan === "pro" ? "Unlimited" : quotaLimit}</span>
                 </p>
               </div>
@@ -109,7 +109,7 @@ export default function ProfilePage() {
             {plan === "free" && (
               <div className="w-full h-3 bg-muted rounded-full overflow-hidden mt-4">
                 <div
-                  className={`h-full rounded-full transition-all duration-1000 ${usagePercentage > 80 ? 'bg-destructive shadow-[0_0_10px_rgba(239,68,68,0.5)]' : 'progress-bar-fill'}`}
+                  className={`h-full rounded-full transition-all duration-1000 ${usagePercentage > 80 ? 'bg-destructive' : 'bg-primary'}`}
                   style={{ width: `${usagePercentage}%` }}
                 />
               </div>

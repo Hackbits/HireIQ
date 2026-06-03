@@ -11,7 +11,7 @@ function ScoreRing({ score }: { score: number }) {
   const radius = 28;
   const circumference = 2 * Math.PI * radius;
   const strokeDashoffset = circumference - (score / 100) * circumference;
-  const color = score >= 70 ? "oklch(0.77 0.134 178)" : score >= 45 ? "oklch(0.78 0.16 61)" : "oklch(0.78 0.18 31)";
+  const color = score >= 70 ? "var(--color-primary)" : score >= 45 ? "var(--color-warning)" : "var(--color-destructive)";
 
   return (
     <div className="relative flex items-center justify-center" style={{ width: 72, height: 72 }}>
@@ -29,17 +29,17 @@ function ScoreRing({ score }: { score: number }) {
         />
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <span className="text-base font-bold font-display-family leading-none" style={{ color }}>{score}</span>
+        <span className="text-base font-bold leading-none" style={{ color }}>{score}</span>
         <span className="text-[0.6rem] text-muted-foreground">/ 100</span>
       </div>
     </div>
   );
 }
 
-const recommendationBadgeVariant: Record<Candidate["recommendation"], "strong" | "possible" | "not-fit"> = {
-  strong_fit: "strong",
-  possible_fit: "possible",
-  not_fit: "not-fit",
+const recommendationBadgeVariant: Record<Candidate["recommendation"], "success" | "warning" | "destructive"> = {
+  strong_fit: "success",
+  possible_fit: "warning",
+  not_fit: "destructive",
 };
 
 const recommendationLabels: Record<Candidate["recommendation"], string> = {
@@ -52,7 +52,7 @@ export default function CandidateCard({ candidate }: CandidateCardProps) {
   const isStrong = candidate.recommendation === "strong_fit";
 
   return (
-    <Card className={isStrong ? "glow-strong" : ""}>
+    <Card>
       <CardContent className="p-5">
         <div className="flex items-start gap-4">
           <div className="flex-shrink-0">
@@ -61,7 +61,7 @@ export default function CandidateCard({ candidate }: CandidateCardProps) {
 
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-3 flex-wrap mb-1">
-              <h3 className="font-display-family text-lg font-bold tracking-tight">
+              <h3 className="text-sm font-semibold">
                 {candidate.name}
               </h3>
               <Badge variant={recommendationBadgeVariant[candidate.recommendation]}>
@@ -79,7 +79,7 @@ export default function CandidateCard({ candidate }: CandidateCardProps) {
                   <span className="micro-label mr-2">Matched</span>
                   <div className="inline-flex flex-wrap gap-1.5 mt-1">
                     {candidate.matchedSkills.slice(0, 8).map((skill) => (
-                      <span key={skill} className="chip-matched">
+                      <span key={skill} className="bg-success/10 text-success border border-success/20 rounded-md px-2 py-0.5 text-xs inline-flex items-center gap-1">
                         <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><polyline points="20 6 9 17 4 12"/></svg>
                         {skill}
                       </span>
@@ -92,7 +92,7 @@ export default function CandidateCard({ candidate }: CandidateCardProps) {
                   <span className="micro-label mr-2">Missing</span>
                   <div className="inline-flex flex-wrap gap-1.5 mt-1">
                     {candidate.missingSkills.slice(0, 6).map((skill) => (
-                      <span key={skill} className="chip-missing">
+                      <span key={skill} className="bg-destructive/10 text-destructive border border-destructive/20 rounded-md px-2 py-0.5 text-xs inline-flex items-center gap-1">
                         <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
                         {skill}
                       </span>
