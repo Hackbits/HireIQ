@@ -180,7 +180,7 @@ export default function UploadForm({ onSuccess }: UploadFormProps) {
         <textarea
           required
           placeholder="Paste the full job description here..."
-          className="input-field w-full min-h-[120px] resize-y"
+          className="bg-secondary border border-border text-foreground rounded-md w-full min-h-[120px] resize-y px-3 py-1.5 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50"
           value={jobDescription}
           onChange={(e) => setJobDescription(e.target.value)}
           disabled={isProcessing}

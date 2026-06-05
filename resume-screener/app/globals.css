@@ -128,3 +128,9 @@ h1, h2, h3, h4, h5, h6 {
   background-color: var(--color-secondary);
   border-radius: 0.25rem;
 }
+
+.focus-ring {
+  outline: none;
+  ring: 2px solid hsl(var(--ring));
+  ring-offset: 2px;
+}

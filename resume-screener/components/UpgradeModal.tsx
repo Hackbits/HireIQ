@@ -54,7 +54,7 @@ export default function UpgradeModal({ isOpen, onClose, onSuccess }: UpgradeModa
           <div className="flex justify-between items-start mb-6">
             <div>
               <h2 className="font-bold tracking-tight text-2xl mb-1">Upgrade to Pro</h2>
-              <p className="text-accent text-sm">Unlock unlimited AI power</p>
+              <p className="text-muted-foreground text-sm">Unlock unlimited AI power</p>
             </div>
             <button
               onClick={onClose}
@@ -75,19 +75,19 @@ export default function UpgradeModal({ isOpen, onClose, onSuccess }: UpgradeModa
             </div>
             <ul className="space-y-3">
               <li className="flex items-start gap-3 text-sm text-muted-foreground">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="mt-0.5 text-accent">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="mt-0.5 text-primary">
                   <polyline points="20 6 9 17 4 12"/>
                 </svg>
                 Unlimited resume screens
               </li>
               <li className="flex items-start gap-3 text-sm text-muted-foreground">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="mt-0.5 text-accent">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="mt-0.5 text-primary">
                   <polyline points="20 6 9 17 4 12"/>
                 </svg>
                 Priority AI processing & CSV export
               </li>
               <li className="flex items-start gap-3 text-sm text-muted-foreground">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="mt-0.5 text-accent">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="mt-0.5 text-primary">
                   <polyline points="20 6 9 17 4 12"/>
                 </svg>
                 Batch uploads (up to 50 at once)
