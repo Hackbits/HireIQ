@@ -5,6 +5,7 @@ import { doc, getDoc, collection, query, where, getDocs, orderBy } from "firebas
 import { useAuth } from "@/lib/auth-context";
 import { useRouter, useParams } from "next/navigation";
 import CandidateCard from "@/components/CandidateCard";
+import CompareView from "@/components/CompareView";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton, SkeletonMetricCard, SkeletonCandidateCard } from "@/components/ui/skeleton";
@@ -48,6 +49,8 @@ export default function JobResultsPage() {
   const [candidates, setCandidates] = useState<Candidate[]>([]);
   const [dataLoading, setDataLoading] = useState(true);
   const [filter, setFilter] = useState<RecommendationFilter>("all");
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+  const [showCompare, setShowCompare] = useState(false);
 
   useEffect(() => {
     if (!loading && !user) {
@@ -115,6 +118,23 @@ export default function JobResultsPage() {
     if (filter === "all") return candidates;
     return candidates.filter((c) => c.recommendation === filter);
   }, [candidates, filter]);
+
+  const toggleSelect = (id: string) => {
+    setSelectedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) {
+        next.delete(id);
+      } else if (next.size < 3) {
+        next.add(id);
+      }
+      return next;
+    });
+  };
+
+  const selectedCandidates = useMemo(
+    () => candidates.filter((c) => selectedIds.has(c.id)),
+    [candidates, selectedIds]
+  );
 
   const stats = useMemo(() => ({
     strong: candidates.filter((c) => c.recommendation === "strong_fit").length,
@@ -260,9 +280,38 @@ export default function JobResultsPage() {
       ) : (
         <div className="space-y-4">
           {filtered.map((candidate) => (
-            <CandidateCard key={candidate.id} candidate={candidate} />
+            <CandidateCard
+              key={candidate.id}
+              candidate={candidate}
+              selected={selectedIds.has(candidate.id)}
+              onToggle={toggleSelect}
+            />
           ))}
         </div>
+      )}
+
+      {selectedIds.size >= 2 && !showCompare && (
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 bg-card border border-border rounded-xl shadow-2xl px-5 py-3 animate-fade-up">
+          <span className="text-sm text-muted-foreground">
+            <strong className="text-foreground">{selectedIds.size}</strong> candidate{selectedIds.size > 1 ? "s" : ""} selected
+          </span>
+          <div className="w-px h-5 bg-border" />
+          <Button variant="primary" size="sm" onClick={() => setShowCompare(true)}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/>
+              <polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/>
+              <line x1="4" y1="4" x2="9" y2="9"/>
+            </svg>
+            Compare
+          </Button>
+          <Button variant="ghost" size="sm" onClick={() => setSelectedIds(new Set())}>
+            Clear
+          </Button>
+        </div>
+      )}
+
+      {showCompare && selectedCandidates.length >= 2 && (
+        <CompareView candidates={selectedCandidates} onClose={() => setShowCompare(false)} />
       )}
     </div>
   );

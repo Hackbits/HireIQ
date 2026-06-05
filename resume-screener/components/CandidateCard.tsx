@@ -5,6 +5,8 @@ import { Badge } from "@/components/ui/badge";
 
 interface CandidateCardProps {
   candidate: Candidate;
+  selected?: boolean;
+  onToggle?: (id: string) => void;
 }
 
 function ScoreRing({ score }: { score: number }) {
@@ -48,13 +50,30 @@ const recommendationLabels: Record<Candidate["recommendation"], string> = {
   not_fit: "Not a Fit",
 };
 
-export default function CandidateCard({ candidate }: CandidateCardProps) {
+export default function CandidateCard({ candidate, selected, onToggle }: CandidateCardProps) {
   const isStrong = candidate.recommendation === "strong_fit";
 
   return (
     <Card>
       <CardContent className="p-5">
         <div className="flex items-start gap-4">
+          <div className="flex-shrink-0">
+            {onToggle && (
+              <button
+                onClick={() => onToggle(candidate.id)}
+                className={`w-6 h-6 rounded-md border-2 flex items-center justify-center transition-all duration-150 flex-shrink-0 ${
+                  selected
+                    ? "bg-primary border-primary text-primary-foreground"
+                    : "border-border hover:border-primary/50 text-transparent"
+                }`}
+                aria-label={selected ? "Deselect candidate" : "Select candidate for comparison"}
+              >
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="20 6 9 17 4 12"/>
+                </svg>
+              </button>
+            )}
+          </div>
           <div className="flex-shrink-0">
             <ScoreRing score={candidate.score} />
           </div>
