@@ -13,6 +13,7 @@ import { useAuth } from "@/lib/auth-context";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { SkeletonAuthCard } from "@/components/ui/skeleton";
 
 export default function SignupPage() {
   const [email, setEmail] = useState("");
@@ -33,8 +34,8 @@ export default function SignupPage() {
 
   if (authLoading) {
     return (
-      <div className="page-bg min-h-screen flex items-center justify-center">
-        <div className="w-8 h-8 rounded-full border-4 border-primary border-t-transparent animate-spin" />
+      <div className="page-bg flex items-center justify-center p-4">
+        <SkeletonAuthCard />
       </div>
     );
   }

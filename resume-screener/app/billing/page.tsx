@@ -6,6 +6,7 @@ import { Suspense } from "react";
 import UpgradeModal from "@/components/UpgradeModal";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Skeleton, SkeletonBillingCards } from "@/components/ui/skeleton";
 
 const PRO_FEATURES = [
   "Unlimited resume screens",
@@ -63,8 +64,12 @@ function BillingContent() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-[60vh]">
-        <div className="loader" style={{ width: 40, height: 40 }} />
+      <div className="animate-fade-up">
+        <div className="page-header mb-8">
+          <Skeleton className="h-7 w-48 mb-2" />
+          <Skeleton className="h-4 w-64" />
+        </div>
+        <SkeletonBillingCards />
       </div>
     );
   }

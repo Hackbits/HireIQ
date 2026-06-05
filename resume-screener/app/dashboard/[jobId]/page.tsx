@@ -7,6 +7,7 @@ import { useRouter, useParams } from "next/navigation";
 import CandidateCard from "@/components/CandidateCard";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Skeleton, SkeletonMetricCard, SkeletonCandidateCard } from "@/components/ui/skeleton";
 import { Candidate, Job, RecommendationFilter } from "@/lib/types";
 
 const RECOMMENDATION_LABELS: Record<RecommendationFilter, string> = {
@@ -126,8 +127,26 @@ export default function JobResultsPage() {
 
   if (loading || dataLoading) {
     return (
-      <div className="flex items-center justify-center min-h-[60vh]">
-        <div className="loader" style={{ width: 40, height: 40 }} />
+      <div className="animate-fade-up">
+        <div className="mb-6">
+          <Skeleton className="h-4 w-24 mb-4" />
+          <div className="flex items-start justify-between gap-4 flex-wrap">
+            <div>
+              <Skeleton className="h-7 w-64 mb-2" />
+              <Skeleton className="h-4 w-48" />
+            </div>
+            <Skeleton className="h-9 w-28 rounded-md" />
+          </div>
+        </div>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
+          {[1, 2, 3, 4].map((i) => <SkeletonMetricCard key={i} />)}
+        </div>
+        <div className="flex gap-2 mb-6">
+          {[1, 2, 3, 4].map((i) => <Skeleton key={i} className="h-8 w-24 rounded-md" />)}
+        </div>
+        <div className="space-y-4">
+          {[1, 2, 3].map((i) => <SkeletonCandidateCard key={i} />)}
+        </div>
       </div>
     );
   }

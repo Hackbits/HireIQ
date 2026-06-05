@@ -30,6 +30,7 @@ export const metadata: Metadata = {
 };
 
 import { AuthProvider } from "@/lib/auth-context";
+import { ToastProvider } from "@/lib/use-toast";
 import Navbar from "@/components/Navbar";
 
 export default function RootLayout({
@@ -51,10 +52,12 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <AuthProvider>
-            <Navbar />
-            <div className="pt-13">
-              {children}
-            </div>
+            <ToastProvider>
+              <Navbar />
+              <div className="pt-13">
+                {children}
+              </div>
+            </ToastProvider>
           </AuthProvider>
         </ThemeProvider>
       </body>

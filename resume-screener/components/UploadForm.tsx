@@ -8,6 +8,7 @@ import * as pdfjsLib from "pdfjs-dist";
 import { uploadFiles } from "@/utils/uploadthing";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useToast } from "@/lib/use-toast";
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.mjs`;
 
@@ -25,6 +26,7 @@ interface FileProgress {
 export default function UploadForm({ onSuccess }: UploadFormProps) {
   const { user, profile } = useAuth();
   const router = useRouter();
+  const { toast } = useToast();
 
   const [jobTitle, setJobTitle] = useState("");
   const [jobDescription, setJobDescription] = useState("");
@@ -97,7 +99,7 @@ export default function UploadForm({ onSuccess }: UploadFormProps) {
     if (!user || files.length === 0 || !jobTitle || !jobDescription) return;
 
     if (profile && profile.plan === "free" && profile.screensUsed + files.length > profile.screensLimit) {
-        alert(`You only have ${profile.screensLimit - profile.screensUsed} screens left on the Free plan.`);
+        toast(`You only have ${profile.screensLimit - profile.screensUsed} screens left on the Free plan.`, "error");
         return;
     }
 
@@ -156,7 +158,7 @@ export default function UploadForm({ onSuccess }: UploadFormProps) {
       onSuccess(jobId);
     } catch (err) {
       console.error(err);
-      alert("Failed to initialize job. Please try again.");
+      toast("Failed to initialize job. Please try again.", "error");
       setIsProcessing(false);
     }
   };

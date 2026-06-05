@@ -4,6 +4,7 @@ import { useAuth } from "@/lib/auth-context";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Skeleton, SkeletonProfileCard } from "@/components/ui/skeleton";
 
 export default function ProfilePage() {
   const { user, profile, loading, plan, quotaUsed, quotaLimit, signOut } = useAuth();
@@ -22,8 +23,15 @@ export default function ProfilePage() {
 
   if (loading || !user) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="loader" style={{ width: 40, height: 40 }} />
+      <div className="animate-fade-up">
+        <div className="page-header mb-8">
+          <Skeleton className="h-7 w-40 mb-2" />
+          <Skeleton className="h-4 w-56" />
+        </div>
+        <div className="grid gap-6">
+          <SkeletonProfileCard />
+          <SkeletonProfileCard />
+        </div>
       </div>
     );
   }

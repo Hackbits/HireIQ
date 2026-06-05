@@ -15,11 +15,27 @@ import dynamic from 'next/dynamic';
 
 const UploadForm = dynamic(() => import('@/components/UploadForm'), {
   ssr: false,
-  loading: () => <div className="loader mx-auto" />
+  loading: () => (
+    <div className="bg-card border border-border rounded-xl p-6 space-y-5">
+      <div className="space-y-1.5">
+        <div className="skeleton h-3 w-16 rounded" />
+        <div className="skeleton h-9 w-full rounded-md" />
+      </div>
+      <div className="space-y-1.5">
+        <div className="skeleton h-3 w-24 rounded" />
+        <div className="skeleton h-[120px] w-full rounded-md" />
+      </div>
+      <div className="space-y-1.5">
+        <div className="skeleton h-3 w-32 rounded" />
+        <div className="skeleton h-32 w-full rounded-xl" />
+      </div>
+    </div>
+  )
 });
 import PlanGate from "@/components/PlanGate";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { SkeletonCard } from "@/components/ui/skeleton";
 import { Job } from "@/lib/types";
 
 export default function DashboardPage() {
@@ -81,8 +97,17 @@ export default function DashboardPage() {
 
   if (loading || (!user && !loading)) {
     return (
-      <div className="flex items-center justify-center min-h-[60vh]">
-        <div className="loader" style={{ width: 40, height: 40 }} />
+      <div className="animate-fade-up">
+        <div className="flex items-center justify-between mb-8">
+          <div>
+            <div className="skeleton h-7 w-40 mb-2" />
+            <div className="skeleton h-4 w-64" />
+          </div>
+          <div className="skeleton h-9 w-24 rounded-md" />
+        </div>
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {[1, 2, 3].map((i) => <SkeletonCard key={i} />)}
+        </div>
       </div>
     );
   }
@@ -108,11 +133,9 @@ export default function DashboardPage() {
           </div>
         </PlanGate>
       ) : dataLoading ? (
-        <Card>
-          <CardContent className="py-10 flex justify-center">
-            <div className="loader mx-auto" />
-          </CardContent>
-        </Card>
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {[1, 2, 3].map((i) => <SkeletonCard key={i} />)}
+        </div>
       ) : jobs.length === 0 ? (
         <div className="bg-card border border-border rounded-xl text-center py-16 px-8">
           <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" className="mx-auto mb-4 text-muted-foreground">
