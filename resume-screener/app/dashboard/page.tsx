@@ -105,7 +105,7 @@ export default function DashboardPage() {
     fetchJobs();
   }, [user]);
 
-  if (loading || (!user && !loading)) {
+  if (loading) {
     return (
       <div className="animate-fade-up">
         <div className="flex items-center justify-between mb-8">
@@ -121,6 +121,8 @@ export default function DashboardPage() {
       </div>
     );
   }
+
+  if (!user) return null;
 
   return (
     <div className="animate-fade-up">
