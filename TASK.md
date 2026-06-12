@@ -6,13 +6,13 @@
 
 ## Phase 1: Critical Fixes (App-Blocking)
 
-- [ ] **T1** — Configure Gemini API Key in `.env.local`
+- [x] **T1** — Configure Gemini API Key in `.env.local` (verified working, model updated to `gemini-2.0-flash`)
 - [ ] **T2** — Configure Stripe Keys (create-checkout + webhook)
-- [ ] **T3** — Deploy Firestore composite index for dashboard query
+- [x] **T3** — Deploy Firestore composite index for dashboard query
 
 ## Phase 2: Security & Hygiene
 
-- [ ] **T4** — Remove committed secrets from `.env.local` / `.env.local.example` (use `.gitignore` + template)
+- [x] **T4** — Remove committed secrets — cleaned `.env.example` template, fixed `.gitignore` to allow tracking it
 - [ ] **T5** — Add rate limiting to `/api/screen`
 - [ ] **T6** — Replace all `any` types with proper TypeScript types (10+ instances)
 - [ ] **T7** — Remove unused `uuid` dependency
