@@ -31,7 +31,7 @@ export const metadata: Metadata = {
 
 import { AuthProvider } from "@/lib/auth-context";
 import { ToastProvider } from "@/lib/use-toast";
-import Navbar from "@/components/Navbar";
+import NavRouter from "@/components/NavRouter";
 
 export default function RootLayout({
   children,
@@ -53,7 +53,7 @@ export default function RootLayout({
         >
           <AuthProvider>
             <ToastProvider>
-              <Navbar />
+              <NavRouter />
               <div className="pt-13">
                 {children}
               </div>
