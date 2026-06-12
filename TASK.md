@@ -29,7 +29,7 @@
 - [x] **T12** — Fix dashboard redirect race condition (skeleton flash for unauthenticated users)
 - [x] **T13** — Fix PDF.js worker CDN version mismatch risk
 - [x] **T14** — Fix `profile` null safety in `UploadForm.tsx` (already guarded by T6)
-- [ ] **T15** — Fix `@ts-expect-error` / stale closure in `billing/page.tsx`
+- [x] **T15** — Fix stale closure in `billing/page.tsx` (added `refreshUserData` to deps)
 - [ ] **T16** — Investigate canvas/encoding stub silent failures in pdf.js
 
 ## Phase 5: Features & Polish

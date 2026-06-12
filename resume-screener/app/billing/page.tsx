@@ -49,8 +49,7 @@ function BillingContent() {
     } else if (canceled === "true") {
       setMessage({ type: "error", text: "Checkout was canceled. You can try again anytime." });
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchParams]);
+  }, [searchParams, refreshUserData]);
 
   const handleUpgrade = async () => {
     setIsModalOpen(true);
