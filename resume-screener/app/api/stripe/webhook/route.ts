@@ -9,9 +9,17 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "No signature" }, { status: 400 });
   }
 
-  // Lazy import Stripe to avoid build-time env var issues
+  const secretKey = process.env.STRIPE_SECRET_KEY;
+  const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
+  if (!secretKey || !webhookSecret) {
+    return NextResponse.json(
+      { error: "Stripe is not configured. Set STRIPE_SECRET_KEY and STRIPE_WEBHOOK_SECRET in your environment variables." },
+      { status: 500 }
+    );
+  }
+
   const Stripe = (await import("stripe")).default;
-  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || 'placeholder', {
+  const stripe = new Stripe(secretKey, {
     apiVersion: "2026-03-25.dahlia",
   });
 
@@ -21,7 +29,7 @@ export async function POST(req: NextRequest) {
     event = stripe.webhooks.constructEvent(
       body,
       sig,
-      process.env.STRIPE_WEBHOOK_SECRET!
+      webhookSecret
     );
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : "Unknown error";

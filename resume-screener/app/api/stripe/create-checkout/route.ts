@@ -1,17 +1,31 @@
-// app/api/stripe/create-checkout/route.ts - Create Stripe Checkout session
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
   try {
-    const { Stripe } = await import("stripe");
-    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-      apiVersion: "2026-03-25.dahlia",
-    });
+    const secretKey = process.env.STRIPE_SECRET_KEY;
+    if (!secretKey) {
+      return NextResponse.json(
+        { error: "Stripe is not configured. Set STRIPE_SECRET_KEY in your environment variables." },
+        { status: 500 }
+      );
+    }
 
     const { firebaseUid, email } = (await req.json()) as {
       firebaseUid: string;
       email: string;
     };
+
+    if (!firebaseUid || !email) {
+      return NextResponse.json(
+        { error: "Missing required fields: firebaseUid, email" },
+        { status: 400 }
+      );
+    }
+
+    const Stripe = (await import("stripe")).default;
+    const stripe = new Stripe(secretKey, {
+      apiVersion: "2026-03-25.dahlia",
+    });
 
     const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
 
@@ -26,7 +40,7 @@ export async function POST(req: NextRequest) {
               description: "Unlimited AI resume screening, priority processing, CSV export",
               images: [],
             },
-            unit_amount: 2900, // $29/month
+            unit_amount: 2900,
             recurring: {
               interval: "month",
             },

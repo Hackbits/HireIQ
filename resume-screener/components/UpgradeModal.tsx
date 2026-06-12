@@ -1,7 +1,5 @@
 "use client";
 import React, { useState } from "react";
-import { doc, updateDoc } from "firebase/firestore";
-import { db } from "@/lib/firebase";
 import { useAuth } from "@/lib/auth-context";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -19,24 +17,31 @@ export default function UpgradeModal({ isOpen, onClose, onSuccess }: UpgradeModa
 
   if (!isOpen) return null;
 
-  const handleSimulateUpgrade = async () => {
+  const handleUpgrade = async () => {
     if (!user) return;
     setLoading(true);
     setError("");
 
     try {
-      const userRef = doc(db, "users", user.uid);
-      await updateDoc(userRef, {
-        plan: "pro",
-        screensLimit: 999999,
+      const res = await fetch("/api/stripe/create-checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          firebaseUid: user.uid,
+          email: user.email,
+        }),
       });
 
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      const data = await res.json();
 
-      onSuccess();
+      if (!res.ok) {
+        throw new Error(data.error || "Failed to create checkout session");
+      }
+
+      window.location.href = data.url;
     } catch (err: unknown) {
       console.error(err);
-      setError("Failed to process upgrade. Please try again.");
+      setError(err instanceof Error ? err.message : "Failed to process upgrade. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -101,19 +106,13 @@ export default function UpgradeModal({ isOpen, onClose, onSuccess }: UpgradeModa
             </div>
           )}
 
-          <div className="space-y-4">
-            <div className="p-3 rounded-md bg-muted border border-border text-xs text-center text-muted-foreground">
-              Stripe not configured — payment simulation only.
-            </div>
-
-            <Button
-              className="w-full bg-primary text-primary-foreground"
-              onClick={handleSimulateUpgrade}
-              disabled={loading}
-            >
-              {loading ? "Processing..." : "Simulate Payment & Upgrade"}
-            </Button>
-          </div>
+          <Button
+            className="w-full bg-primary text-primary-foreground"
+            onClick={handleUpgrade}
+            disabled={loading}
+          >
+            {loading ? "Redirecting to Stripe..." : "Upgrade to Pro — $29/mo"}
+          </Button>
         </CardContent>
       </Card>
     </div>

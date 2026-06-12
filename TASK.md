@@ -7,7 +7,7 @@
 ## Phase 1: Critical Fixes (App-Blocking)
 
 - [x] **T1** — Configure Gemini API Key in `.env.local` (verified working, model updated to `gemini-2.0-flash`)
-- [ ] **T2** — Configure Stripe Keys (create-checkout + webhook)
+- [x] **T2** — Configure Stripe Keys (create-checkout + webhook)
 - [x] **T3** — Deploy Firestore composite index for dashboard query
 
 ## Phase 2: Security & Hygiene
