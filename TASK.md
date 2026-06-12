@@ -48,7 +48,12 @@
   - [x] Created `components/LandingNavbar.tsx` — clean marketing navbar (Logo, Features, Products, Login, Get Started)
   - [x] Created `components/NavRouter.tsx` — client component that routes between LandingNavbar (public) and Navbar (authenticated)
   - [x] Updated `app/layout.tsx` — uses `<NavRouter />` instead of `<Navbar />`
-- [ ] **T18** — Add PWA / Service Worker support
+- [x] **T18** — Add PWA / Service Worker support
+  - [x] Created `app/manifest.ts` — Web manifest (name, icons, theme/background colors, standalone display)
+  - [x] Created `public/sw.js` — Service worker (network-first caching, precaches root)
+  - [x] Created `public/icons/icon-192.svg` + `icon-512.svg` — PWA app icons with "HQ" branding
+  - [x] Created `components/PwaRegister.tsx` — Client component for SW registration
+  - [x] Updated `app/layout.tsx` — Added `viewport` export (themeColor, device-width) + `<PwaRegister />`
 - [ ] **T19** — Set up Vercel deployment config (`.vercel/project.json`)
 
 ## Phase 6: Documentation & QA
