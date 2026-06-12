@@ -14,7 +14,7 @@
 
 - [x] **T4** — Remove committed secrets — cleaned `.env.example` template, fixed `.gitignore` to allow tracking it
 - [x] **T5** — Add rate limiting to `/api/screen` (10 req/min per user, in-memory, with cleanup)
-- [ ] **T6** — Replace all `any` types with proper TypeScript types (10+ instances)
+- [x] **T6** — Replace all `any` types with proper TypeScript types (13 instances → 0, added `toDate` helper, `TimestampLike` type)
 - [ ] **T7** — Remove unused `uuid` dependency
 
 ## Phase 3: Testing
