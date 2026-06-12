@@ -13,7 +13,7 @@
 ## Phase 2: Security & Hygiene
 
 - [x] **T4** — Remove committed secrets — cleaned `.env.example` template, fixed `.gitignore` to allow tracking it
-- [ ] **T5** — Add rate limiting to `/api/screen`
+- [x] **T5** — Add rate limiting to `/api/screen` (10 req/min per user, in-memory, with cleanup)
 - [ ] **T6** — Replace all `any` types with proper TypeScript types (10+ instances)
 - [ ] **T7** — Remove unused `uuid` dependency
 
