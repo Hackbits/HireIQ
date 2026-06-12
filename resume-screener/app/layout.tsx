@@ -1,7 +1,13 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import "./globals.css";
+
+export const viewport: Viewport = {
+  themeColor: "#2563EB",
+  width: "device-width",
+  initialScale: 1,
+};
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -32,6 +38,7 @@ export const metadata: Metadata = {
 import { AuthProvider } from "@/lib/auth-context";
 import { ToastProvider } from "@/lib/use-toast";
 import NavRouter from "@/components/NavRouter";
+import PwaRegister from "@/components/PwaRegister";
 
 export default function RootLayout({
   children,
@@ -53,6 +60,7 @@ export default function RootLayout({
         >
           <AuthProvider>
             <ToastProvider>
+              <PwaRegister />
               <NavRouter />
               <div className="pt-13">
                 {children}
