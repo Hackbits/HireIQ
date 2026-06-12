@@ -15,7 +15,7 @@ Built with **Next.js 16**, **Firebase**, **Google Gemini AI**, and **Tailwind CS
 - **Recommendation Filters** — Sort candidates by Strong Fit, Possible Fit, or Not a Fit.
 - **CSV Export** — Download candidate results as a CSV file for further analysis.
 - **User Authentication** — Email/password and Google sign-in via Firebase Auth.
-- **Plan-based Quotas** — Free tier (20 screens/month) and Pro tier (unlimited) with Stripe integration.
+- **Plan-based Quotas** — Free tier (20 screens/month) and Pro tier (unlimited) with Razorpay integration.
 - **Dark/Light Mode** — Class-based theming via `next-themes` (light default).
 
 ---
@@ -29,7 +29,7 @@ Built with **Next.js 16**, **Firebase**, **Google Gemini AI**, and **Tailwind CS
 | Auth        | Firebase Authentication                         |
 | Database    | Cloud Firestore                                 |
 | AI          | Google Gemini API                               |
-| Payments    | Stripe                                          |
+| Payments    | Razorpay                                        |
 | File Upload | UploadThing                                     |
 | PDF Parsing | pdf.js                                          |
 | Fonts       | Plus Jakarta Sans, JetBrains Mono               |
@@ -47,7 +47,7 @@ Built with **Next.js 16**, **Firebase**, **Google Gemini AI**, and **Tailwind CS
 - Firebase project (with Auth + Firestore enabled)
 - Google Gemini API key
 - UploadThing account
-- Stripe account (optional, for payment processing)
+- Razorpay account (optional, for payment processing)
 
 ### Installation
 
@@ -81,10 +81,10 @@ GEMINI_API_KEY=
 # UploadThing
 UPLOADTHING_TOKEN=
 
-# Stripe
-NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=
-STRIPE_SECRET_KEY=
-STRIPE_WEBHOOK_SECRET=
+# Razorpay
+RAZORPAY_KEY_ID=
+RAZORPAY_KEY_SECRET=
+RAZORPAY_WEBHOOK_SECRET=
 ```
 
 ### Development
@@ -114,7 +114,7 @@ resume-screener/
 │   │   └── signup/page.tsx
 │   ├── api/
 │   │   ├── screen/route.ts       # AI screening endpoint
-│   │   ├── stripe/               # Stripe checkout & webhook
+│   │   ├── razorpay/             # Razorpay subscription & webhook
 │   │   └── uploadthing/          # File upload routes
 │   ├── billing/page.tsx
 │   ├── dashboard/
@@ -149,7 +149,7 @@ resume-screener/
 
 ## Design System
 
-The visual language is **light, precise, and trustworthy** — inspired by Linear, Vercel, and Stripe.
+The visual language is **light, precise, and trustworthy** — inspired by Linear, Vercel, and Razorpay.
 
 - Light canvas (`#F8FAFC`) with generous whitespace
 - Blue-600 (`#2563EB`) as the single primary action color

@@ -113,36 +113,61 @@ resume-screener/
 │   │   ├── login/page.tsx
 │   │   └── signup/page.tsx
 │   ├── api/
-│   │   ├── screen/route.ts       # AI screening endpoint
-│   │   ├── razorpay/             # Razorpay subscription & webhook
-│   │   └── uploadthing/          # File upload routes
+│   │   ├── __tests__/
+│   │   │   └── screen.route.test.ts  # Integration tests
+│   │   ├── razorpay/
+│   │   │   ├── create-subscription/route.ts
+│   │   │   └── webhook/route.ts
+│   │   ├── screen/route.ts           # AI screening endpoint
+│   │   └── uploadthing/route.ts      # File upload routes
 │   ├── billing/page.tsx
 │   ├── dashboard/
-│   │   ├── [jobId]/page.tsx      # Candidate results per job
+│   │   ├── [jobId]/page.tsx          # Candidate results per job
 │   │   ├── layout.tsx
-│   │   └── page.tsx              # Job listing dashboard
+│   │   └── page.tsx                  # Job listing dashboard
 │   ├── profile/page.tsx
-│   ├── globals.css               # Design tokens & utilities
-│   ├── layout.tsx                # Root layout with fonts & theme
-│   └── page.tsx                  # Landing page
+│   ├── globals.css                   # Design tokens & utilities
+│   ├── layout.tsx                    # Root layout with fonts & theme
+│   └── page.tsx                      # Landing page
 ├── components/
-│   ├── ui/                       # Button, Card, Input, Badge
+│   ├── __tests__/
+│   │   ├── CandidateCard.test.tsx
+│   │   └── UploadForm.test.tsx
+│   ├── ui/
+│   │   ├── __tests__/                # Button, Badge, Card, Input, Skeleton
+│   │   ├── badge.tsx
+│   │   ├── button.tsx
+│   │   ├── card.tsx
+│   │   ├── input.tsx
+│   │   └── skeleton.tsx
 │   ├── CandidateCard.tsx
-│   ├── LandingNavbar.tsx
+│   ├── CompareView.tsx
 │   ├── Navbar.tsx
+│   ├── OnboardingTour.tsx
 │   ├── PlanGate.tsx
 │   ├── Sidebar.tsx
 │   ├── UpgradeModal.tsx
 │   └── UploadForm.tsx
 ├── lib/
-│   ├── auth-context.tsx          # Auth provider & hooks
-│   ├── firebase.ts               # Firebase client config
-│   ├── firebase-admin.ts         # Firebase admin SDK
-│   ├── gemini.ts                 # Gemini API wrapper
-│   ├── types.ts                  # Shared TypeScript types
-│   └── utils.ts                  # cn() utility
-└── utils/
-    └── uploadthing.ts
+│   ├── __tests__/
+│   │   ├── gemini.test.ts
+│   │   ├── rate-limit.test.ts
+│   │   ├── setup.ts
+│   │   └── utils.test.ts
+│   ├── auth-context.tsx           # Auth provider & hooks
+│   ├── firebase.ts                # Firebase client config
+│   ├── firebase-admin.ts          # Firebase admin SDK
+│   ├── gemini.ts                  # Gemini API wrapper
+│   ├── rate-limit.ts              # In-memory rate limiter
+│   ├── types.ts                   # Shared TypeScript types
+│   ├── use-toast.tsx              # Toast notification system
+│   └── utils.ts                   # cn(), toDate() utilities
+├── public/
+│   └── pdf.worker.min.mjs         # Local PDF.js worker (pinned version)
+├── utils/
+│   └── uploadthing.ts
+├── vitest.config.ts               # Vitest configuration
+└── empty-module.js                # Module stub for tests
 ```
 
 ---
@@ -167,6 +192,8 @@ The visual language is **light, precise, and trustworthy** — inspired by Linea
 | `build`  | Production build |
 | `start`  | Start production server |
 | `lint`   | Run ESLint |
+| `test`   | Run all tests (`npx vitest run`) |
+| `test:watch` | Run tests in watch mode (`npx vitest`) |
 
 ---
 
