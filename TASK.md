@@ -44,7 +44,10 @@
 
 ## Phase 5: Features & Polish
 
-- [ ] **T17** — Create separate LandingNavbar for landing page
+- [x] **T17** — Create separate LandingNavbar for landing page
+  - [x] Created `components/LandingNavbar.tsx` — clean marketing navbar (Logo, Features, Products, Login, Get Started)
+  - [x] Created `components/NavRouter.tsx` — client component that routes between LandingNavbar (public) and Navbar (authenticated)
+  - [x] Updated `app/layout.tsx` — uses `<NavRouter />` instead of `<Navbar />`
 - [ ] **T18** — Add PWA / Service Worker support
 - [ ] **T19** — Set up Vercel deployment config (`.vercel/project.json`)
 
