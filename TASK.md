@@ -36,7 +36,11 @@
 - [x] **T13** — Fix PDF.js worker CDN version mismatch risk (copy worker to `public/`, use local URL)
 - [x] **T14** — Fix `profile` null safety in `UploadForm.tsx` (already guarded by T6)
 - [x] **T15** — Fix stale closure in `billing/page.tsx` (added `refreshUserData` to useEffect deps)
-- [ ] **T16** — Investigate canvas/encoding stub silent failures in pdf.js
+- [x] **T16** — Fix pdf.js canvas/encoding stub silent failures
+  - [x] Added `cMapUrl: "/cmaps/"` and `cMapPacked: true` to `getDocument()` call in `UploadForm.tsx`
+  - [x] Copied `cmaps/` (169 .bcmap files) from `pdfjs-dist` to `public/cmaps/` for worker fetch
+  - [x] Fixed test mock to include `getPage()` + `getTextContent()` — prevents crash if tests exercise `extractTextFromPDF`
+  - [x] Confirmed Turbopack aliases for `canvas` and `encoding` → `empty-module.js` are already in `next.config.ts`
 
 ## Phase 5: Features & Polish
 

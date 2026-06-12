@@ -31,14 +31,22 @@ vi.mock("@/utils/uploadthing", () => ({
   uploadFiles: vi.fn().mockResolvedValue([{ url: "https://ut.dev/file.pdf" }]),
 }));
 
+const mockGetTextContent = vi.fn().mockResolvedValue({
+  items: [{ str: "Hello World" }, { str: "Resume content" }],
+});
+
+const mockGetPage = vi.fn().mockResolvedValue({
+  getTextContent: mockGetTextContent,
+});
+
 vi.mock("pdfjs-dist", () => ({
   default: {
     GlobalWorkerOptions: { workerSrc: "" },
-    getDocument: () => ({ promise: Promise.resolve({ numPages: 1 }) }),
+    getDocument: () => ({ promise: Promise.resolve({ numPages: 1, getPage: mockGetPage }) }),
     version: "5.6.205",
   },
   GlobalWorkerOptions: { workerSrc: "" },
-  getDocument: () => ({ promise: Promise.resolve({ numPages: 1 }) }),
+  getDocument: () => ({ promise: Promise.resolve({ numPages: 1, getPage: mockGetPage }) }),
   version: "5.6.205",
 }));
 
