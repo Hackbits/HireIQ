@@ -2,6 +2,7 @@
 import { Candidate } from "@/lib/types";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { toDate } from "@/lib/utils";
 
 interface CandidateCardProps {
   candidate: Candidate;
@@ -125,7 +126,7 @@ export default function CandidateCard({ candidate, selected, onToggle }: Candida
 
         <div className="mt-3 pt-3 border-t border-border">
           <span className="text-[0.72rem] text-muted-foreground">
-            Processed {new Date(candidate.processedAt).toLocaleString()}
+            Processed {toDate(candidate.processedAt).toLocaleString()}
           </span>
         </div>
       </CardContent>

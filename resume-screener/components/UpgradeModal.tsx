@@ -34,7 +34,7 @@ export default function UpgradeModal({ isOpen, onClose, onSuccess }: UpgradeModa
       await new Promise((resolve) => setTimeout(resolve, 1500));
 
       onSuccess();
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error(err);
       setError("Failed to process upgrade. Please try again.");
     } finally {

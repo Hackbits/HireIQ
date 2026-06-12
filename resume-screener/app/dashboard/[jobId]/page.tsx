@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton, SkeletonMetricCard, SkeletonCandidateCard } from "@/components/ui/skeleton";
 import { Candidate, Job, RecommendationFilter } from "@/lib/types";
+import { toDate } from "@/lib/utils";
 
 const RECOMMENDATION_LABELS: Record<RecommendationFilter, string> = {
   all: "All",
@@ -191,7 +192,7 @@ export default function JobResultsPage() {
             <h1 className="text-2xl font-bold tracking-tight">{job.title}</h1>
             <p className="text-muted-foreground text-sm mt-1">
               {candidates.length} candidate{candidates.length !== 1 ? "s" : ""} screened
-              {job.createdAt && ` · ${new Date(job.createdAt).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}`}
+              {job.createdAt && ` · ${toDate(job.createdAt).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}`}
             </p>
           </div>
 

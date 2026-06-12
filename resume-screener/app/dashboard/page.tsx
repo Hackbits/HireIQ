@@ -38,6 +38,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { SkeletonCard } from "@/components/ui/skeleton";
 import OnboardingTour, { completeOnboarding } from "@/components/OnboardingTour";
 import { Job } from "@/lib/types";
+import { toDate } from "@/lib/utils";
 
 export default function DashboardPage() {
   const { user, loading } = useAuth();
@@ -212,7 +213,7 @@ export default function DashboardPage() {
                 {job.title}
               </h3>
               <p className="text-xs text-muted-foreground mb-4">
-                {new Date(job.createdAt).toLocaleDateString()}
+                {toDate(job.createdAt).toLocaleDateString()}
               </p>
               <div className="flex items-center justify-between">
                 <span className="text-xs text-muted-foreground border border-border rounded-md px-2 py-0.5">

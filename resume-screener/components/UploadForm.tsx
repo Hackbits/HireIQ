@@ -88,7 +88,9 @@ export default function UploadForm({ onSuccess }: UploadFormProps) {
     for (let i = 1; i <= pdf.numPages; i++) {
       const page = await pdf.getPage(i);
       const textContent = await page.getTextContent();
-      const pageText = textContent.items.map((item: any) => item.str).join(" ");
+      const pageText = textContent.items
+        .filter((item): item is { str: string } & typeof item => "str" in item)
+        .map((item) => item.str).join(" ");
       fullText += pageText + "\n";
     }
     return fullText.trim();
@@ -150,8 +152,8 @@ export default function UploadForm({ onSuccess }: UploadFormProps) {
           }
 
           updateFileStatus(i, "done", undefined, res.url);
-        } catch (err: any) {
-          updateFileStatus(i, "error", err.message);
+        } catch (err: unknown) {
+          updateFileStatus(i, "error", err instanceof Error ? err.message : "Unknown error");
         }
       }
 

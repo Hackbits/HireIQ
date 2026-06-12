@@ -69,10 +69,11 @@ export async function POST(req: NextRequest) {
     });
 
     return NextResponse.json({ success: true, result });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Screening error:", error);
+    const message = error instanceof Error ? error.message : "Failed to screen resume";
     return NextResponse.json(
-      { error: error.message || "Failed to screen resume" },
+      { error: message },
       { status: 500 }
     );
   }
