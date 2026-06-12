@@ -19,10 +19,10 @@
 
 ## Phase 3: Testing
 
-- [ ] **T8** — Install testing framework (Vitest/Jest)
-- [ ] **T9** — Write unit tests for core utilities (gemini.ts, utils.ts, types)
-- [ ] **T10** — Write integration tests for API routes (/api/screen)
-- [ ] **T11** — Write component tests (UploadForm, CandidateCard, etc.)
+- [x] **T8** — Install testing framework (Vitest + Testing Library, 6 smoke tests passing)
+- [x] **T9** — Write unit tests for core utilities (gemini.ts, utils.ts, types)
+- [x] **T10** — Write integration tests for API routes (/api/screen)
+- [x] **T11** — Write component tests (UploadForm, CandidateCard, etc.)
 
 ## Phase 4: Bug Fixes
 
