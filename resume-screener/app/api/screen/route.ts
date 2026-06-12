@@ -2,6 +2,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { screenResume } from "@/lib/gemini";
 import { adminDb } from "@/lib/firebase-admin";
+import { checkRateLimit } from "@/lib/rate-limit";
 import * as admin from "firebase-admin";
 
 export async function POST(req: NextRequest) {
@@ -10,6 +11,23 @@ export async function POST(req: NextRequest) {
 
     if (!resumeText || !jobDescription || !jobId || !firebaseUid) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
+    }
+
+    const rateLimit = checkRateLimit(`screen:${firebaseUid}`, 10, 60_000);
+    if (!rateLimit.allowed) {
+      return NextResponse.json(
+        {
+          error: "Too many requests. Please wait before screening again.",
+          retryAfter: Math.ceil((rateLimit.resetAt - Date.now()) / 1000),
+        },
+        {
+          status: 429,
+          headers: {
+            "Retry-After": String(Math.ceil((rateLimit.resetAt - Date.now()) / 1000)),
+            "X-RateLimit-Remaining": "0",
+          },
+        }
+      );
     }
 
     const db = adminDb();
