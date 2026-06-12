@@ -7,7 +7,11 @@
 ## Phase 1: Critical Fixes (App-Blocking)
 
 - [x] **T1** — Configure Gemini API Key in `.env.local` (verified working, model updated to `gemini-2.0-flash`)
-- [x] **T2** — Migrate Stripe → Razorpay (Indian payment gateway) — created Razorpay API routes (create-subscription + webhook), updated UpgradeModal & billing page to ₹999/mo, removed Stripe packages
+- [~] **T2** — Migrate Stripe → Razorpay (Indian payment gateway)
+  - [x] Code: Razorpay API routes (create-subscription + webhook), UpgradeModal, billing page, ₹999/mo
+  - [x] Packages: `razorpay` installed, `stripe`/`@stripe/stripe-js` removed
+  - [x] Keys: `RAZORPAY_KEY_ID` + `RAZORPAY_KEY_SECRET` set in `.env.local`
+  - [ ] Webhook: Needs Razorpay webhook URL configured + `RAZORPAY_WEBHOOK_SECRET` set at launch time
 - [x] **T3** — Deploy Firestore composite indexes for dashboard query (`createdBy↑, createdAt↓` on `jobs`; `jobId↑, score↓` on `candidates`)
 
 ## Phase 2: Security & Hygiene
@@ -47,6 +51,10 @@
 - [ ] **T22** — Add contribution guidelines
 
 ---
+
+---
+
+> **T2 Webhook Note**: The Razorpay webhook (`/api/razorpay/webhook`) is what upgrades users in Firestore after payment. It needs a public URL (production or ngrok) configured in Razorpay Dashboard → Settings → Webhooks. Defer this until launch.
 
 ## Running Tests
 
