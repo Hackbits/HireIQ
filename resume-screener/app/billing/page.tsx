@@ -133,7 +133,7 @@ function BillingContent() {
             <div className="flex items-start justify-between mb-4">
               <div>
                 <h2 className="text-xl font-bold tracking-tight text-primary">Pro</h2>
-                <p className="text-3xl font-bold mt-1">$29<span className="text-sm font-normal text-muted-foreground">/mo</span></p>
+                <p className="text-3xl font-bold mt-1">₹999<span className="text-sm font-normal text-muted-foreground">/mo</span></p>
               </div>
               {plan === "pro" && (
                 <span className="text-xs text-primary bg-primary/10 rounded-md px-2 py-0.5">
@@ -179,7 +179,7 @@ function BillingContent() {
 
       <div className="mt-10">
         <p className="text-xs text-center text-muted-foreground">
-          Payments are processed securely via Stripe. Cancel anytime from your Stripe Customer Portal.
+          Payments are processed securely via Razorpay. Cancel anytime from your Razorpay Dashboard.
           <br />
           Questions? Email us at support@hireiq.app
         </p>

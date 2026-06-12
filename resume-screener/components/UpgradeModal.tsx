@@ -23,7 +23,7 @@ export default function UpgradeModal({ isOpen, onClose, onSuccess }: UpgradeModa
     setError("");
 
     try {
-      const res = await fetch("/api/stripe/create-checkout", {
+      const res = await fetch("/api/razorpay/create-subscription", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -35,7 +35,7 @@ export default function UpgradeModal({ isOpen, onClose, onSuccess }: UpgradeModa
       const data = await res.json();
 
       if (!res.ok) {
-        throw new Error(data.error || "Failed to create checkout session");
+        throw new Error(data.error || "Failed to create subscription");
       }
 
       window.location.href = data.url;
@@ -76,7 +76,7 @@ export default function UpgradeModal({ isOpen, onClose, onSuccess }: UpgradeModa
           <div className="bg-muted/30 border border-border rounded-xl p-5 mb-6">
             <div className="flex justify-between items-center mb-4 pb-4 border-b border-border">
               <span className="text-foreground">HireIQ Pro Plan</span>
-              <span className="text-xl font-bold text-foreground">$29<span className="text-sm font-normal text-muted-foreground">/mo</span></span>
+              <span className="text-xl font-bold text-foreground">₹999<span className="text-sm font-normal text-muted-foreground">/mo</span></span>
             </div>
             <ul className="space-y-3">
               <li className="flex items-start gap-3 text-sm text-muted-foreground">
@@ -111,7 +111,7 @@ export default function UpgradeModal({ isOpen, onClose, onSuccess }: UpgradeModa
             onClick={handleUpgrade}
             disabled={loading}
           >
-            {loading ? "Redirecting to Stripe..." : "Upgrade to Pro — $29/mo"}
+            {loading ? "Redirecting to Razorpay..." : "Upgrade to Pro — ₹999/mo"}
           </Button>
         </CardContent>
       </Card>
