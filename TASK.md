@@ -62,7 +62,7 @@
 
 - [x] **T20** — Full end-to-end manual QA pass (all 200s, 66/66 tests, 0 errors)
 - [x] **T21** — Document known limitations in README
-- [ ] **T22** — Add contribution guidelines
+- [x] **T22** — Add contribution guidelines
 
 ---
 
