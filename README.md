@@ -170,6 +170,22 @@ The visual language is **light, precise, and trustworthy** — inspired by Linea
 
 ---
 
+## Known Limitations
+
+1. **Rate limiting is in-memory** — The 10 req/min limit on `/api/screen` resets on server restart. Not suitable for multi-instance deployments without an external store (Redis, etc.).
+
+2. **Auth pages render shell before redirect** — Unauthenticated users briefly see the app shell on dashboard/billing/profile before the client-side redirect fires. This is by design — the shell renders `null` to avoid layout flash.
+
+3. **Razorpay webhook required for upgrades** — Payment upgrades won't apply until the Razorpay webhook URL is configured in the Razorpay Dashboard → Settings → Webhooks pointing to `/api/razorpay/webhook`.
+
+4. **PDF.js cmaps bundled in repo** — 169 `.bcmap` files reside in `public/cmaps/` for offline PDF parsing. This adds ~2MB to the repository.
+
+5. **Gemini model is hardcoded** — The AI model (`gemini-2.0-flash`) is set in `lib/gemini.ts` and requires a code change to switch models.
+
+6. **PWA caching is conservative** — The service worker skips API routes and Next.js chunks. Only static pages are cached via network-first strategy.
+
+7. **Node.js deprecation warning** — Next.js 16 logs a `module.register()` deprecation warning during development. It is harmless and does not affect production builds.
+
 ## Deployment
 
 Deploy to [Vercel](https://vercel.com):

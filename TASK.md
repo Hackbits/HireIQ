@@ -61,7 +61,7 @@
 ## Phase 6: Documentation & QA
 
 - [x] **T20** — Full end-to-end manual QA pass (all 200s, 66/66 tests, 0 errors)
-- [ ] **T21** — Document known limitations in README
+- [x] **T21** — Document known limitations in README
 - [ ] **T22** — Add contribution guidelines
 
 ---
