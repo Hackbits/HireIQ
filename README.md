@@ -188,7 +188,7 @@ The visual language is **light, precise, and trustworthy** — inspired by Linea
 
 ## Deployment
 
-Deploy to [Vercel](https://vercel.com):
+Deploy to [Vercel](https://hireiq-six.vercel.app/):
 
 ```bash
 npx vercel
